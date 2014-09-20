@@ -1,0 +1,419 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Wordclock</title>
+<style type="text/css" media="screen">
+body {
+    background-color: black;
+    color: white;
+}
+div.letter-row {
+    display:table-row;
+}
+div.letter {
+    display:table-cell;
+    color: white;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+}
+</style>
+<script type="text/javascript">
+var myVar=setInterval(function () {myTimer()}, 1000);
+var test = 0;
+var words = {};
+words["ES"] = new Array(0, 1);
+words["WAR"] = new Array(3, 4, 5);
+words["IST"] = new Array(6, 7, 8);
+words["GLEICH"] = new Array(23, 22, 21, 20, 19, 18);
+words["GENAU"] = new Array(16, 15, 14, 13, 12);
+words["GERADE"] = new Array(24, 25, 26, 27, 28, 29);
+words["FÜNF1"] = new Array(31, 32, 33, 34);
+words["VIERTEL"] = new Array(43, 42, 41, 40, 39, 38, 37);
+words["ZEHN1"] = new Array(48, 49, 50, 51);
+words["ZWANZIG"] = new Array(53, 54, 55, 56, 57, 58, 59);
+words["NACH1"] = new Array(71, 70, 69, 68);
+words["VOR1"] = new Array(67, 66, 65);
+words["HALB"] = new Array(63, 62, 61, 60);
+words["DREI"] = new Array(72, 73, 74, 75);
+words["EINS"] = new Array(74, 75, 76, 77);
+words["SIEBEN"] = new Array(77, 78, 79, 80, 81, 82);
+words["ELF"] = new Array(95, 94, 93);
+words["FÜNF2"] = new Array(93, 92, 91, 90);
+words["ZWÖLF"] = new Array(88, 87, 86, 85, 84);
+words["VIER"] = new Array(96, 97, 98, 99);
+words["ZWEI"] = new Array(100, 101, 102, 103);
+words["ACHT"] = new Array(104, 105, 106, 107);
+words["NEUN"] = new Array(118, 117, 116, 115);
+words["SECHS"] = new Array(113, 112, 111, 110, 109);
+words["ZEHN2"] = new Array(120, 121, 122, 123);
+words["UHR"] = new Array(125, 126, 127);
+words["VOR2"] = new Array(129, 130, 131);
+words["NACH2"] = new Array(143, 142, 141, 140);
+words["NACHTS"] = new Array(143, 142, 141, 140, 139, 138);
+words["MITTAG"] = new Array(137, 136, 135, 134, 133, 132);
+function myTimer() {
+    var a = performance.now();
+    var d = new Date();
+    var hour = d.getHours();
+    var minute = d.getMinutes();
+    var second = d.getSeconds();
+    var minutemod5 = minute % 5;
+    var led = 10;
+    var ledid = "";
+    test += 1;
+    if(test==144)
+        test=0;
+    document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+    //document.getElementById("demo2").innerHTML = ("00"+test).slice(-3);
+    for (var i = 0; i < 144; i++)
+    {
+        ledid = "l" + ("00" + i).slice(-3);
+        document.getElementById(ledid).style.color = "white";
+    }
+    ledid = "l" + ("00" + test).slice(-3);
+    //document.getElementById(ledid).style.color = "red";
+    light("ES");
+    if((minutemod5 == 1 || minutemod5 == 2) && (minute != 0))
+    {
+        light("WAR");
+    }
+    if(minutemod5 == 0 || minutemod5 == 3 || minutemod5 == 4)
+    {
+        light("IST");
+    }
+    if(minutemod5 == 3 || minutemod5 == 4)
+    {
+        light("GLEICH");
+    }
+    if(minute == 0)
+    {
+        light("GENAU");
+    }
+    if((minutemod5 == 0 || minutemod5 == 1 || minutemod5 == 2) && (minute != 0))
+    {
+        light("GERADE");
+    }
+    if((minute >= 3 && minute <= 7) || 
+            (minute >= 23 && minute <= 27) || 
+            (minute >= 33 && minute <= 37) ||
+            (minute >= 53 && minute <= 57))
+    {
+        light("FÜNF1");
+    }
+    if((minute >= 13 && minute <= 17) || 
+            (minute >= 43 && minute <= 47))
+    {
+        light("VIERTEL");
+    }
+    if((minute >= 8 && minute <= 12) || 
+            (minute >= 48 && minute <= 52))
+    {
+        light("ZEHN1");
+    }
+    if((minute >= 18 && minute <= 22) || 
+            (minute >= 38 && minute <= 42))
+    {
+        light("ZWANZIG");
+    }
+    if((minute >= 3 && minute <= 22) || 
+            (minute >= 33 && minute <= 37))
+    {
+        light("NACH1");
+    }
+    if((minute >= 23 && minute <= 27) || 
+            (minute >= 38 && minute <= 57))
+    {
+        light("VOR1");
+    }
+    if(minute >= 23 && minute <= 37)
+    {
+        light("HALB");
+    }
+    if(((hour ==  1 || hour == 13) && minute <= 22) || 
+            ((hour ==  0 || hour == 12) && minute >= 23))
+    {
+        light("EINS");
+    }
+    if(((hour ==  2 || hour == 14) && minute <= 22) || 
+            ((hour ==  1 || hour == 13) && minute >= 23))
+    {
+        light("ZWEI");
+    }
+    if(((hour ==  3 || hour == 15) && minute <= 22) || 
+            ((hour ==  2 || hour == 14) && minute >= 23))
+    {
+        light("DREI");
+    }
+    if(((hour ==  4 || hour == 16) && minute <= 22) || 
+            ((hour ==  3 || hour == 15) && minute >= 23))
+    {
+        light("VIER");
+    }
+    if(((hour ==  5 || hour == 17) && minute <= 22) || 
+            ((hour ==  4 || hour == 16) && minute >= 23))
+    {
+        light("FÜNF2");
+    }
+    if(((hour ==  6 || hour == 18) && minute <= 22) || 
+            ((hour ==  5 || hour == 17) && minute >= 23))
+    {
+        light("SECHS");
+    }
+    if(((hour ==  7 || hour == 19) && minute <= 22) || 
+            ((hour ==  6 || hour == 18) && minute >= 23))
+    {
+        light("SIEBEN");
+    }
+    if(((hour ==  8 || hour == 20) && minute <= 22) || 
+            ((hour ==  7 || hour == 19) && minute >= 23))
+    {
+        light("ACHT");
+    }
+    if(((hour ==  9 || hour == 21) && minute <= 22) || 
+            ((hour ==  8 || hour == 20) && minute >= 23))
+    {
+        light("NEUN");
+    }
+    if(((hour ==  10 || hour == 22) && minute <= 22) || 
+            ((hour ==  9 || hour == 21) && minute >= 23))
+    {
+        light("ZEHN2");
+    }
+    if(((hour ==  11 || hour == 23) && minute <= 22) || 
+            ((hour ==  10 || hour == 22) && minute >= 23))
+    {
+        light("ELF");
+    }
+    if(((hour ==  12 || hour == 0) && minute <= 22) || 
+            ((hour ==  11 || hour == 23) && minute >= 23))
+    {
+        light("ZWÖLF");
+    }
+    if(minute >= 58 || minute <= 2)
+    {
+        light("UHR");
+    }
+    if((hour ==  5  && minute >= 23) || 
+            (hour >= 6 && hour <= 10) ||
+            (hour ==  11  && minute <= 22))
+    {
+        light("VOR2");
+        light("MITTAG");
+    }
+    if((hour ==  12  && minute >= 23) || 
+            (hour >= 13 && hour <= 18) ||
+            (hour ==  19  && minute <= 22))
+    {
+        light("NACH2");
+        light("MITTAG");
+    }
+    if((hour ==  19  && minute >= 23) || 
+            (hour >= 20 || hour <= 5) ||
+            (hour ==  5  && minute <= 22))
+    {
+        light("NACHTS");
+    }
+    if((hour ==  11  && minute >= 23) || 
+            (hour ==  12  && minute <= 22))
+    {
+        light("MITTAG");
+    }
+    var b = performance.now();
+    document.getElementById("demo2").innerHTML = b - a;
+}
+function light(word)
+{
+    var wordarray = words[word];
+    for(var letter in wordarray)
+    {
+        var ledid = "l" + ("00" + wordarray[letter]).slice(-3);
+        document.getElementById(ledid).style.color = "red";
+    }
+}
+</script>
+</head>
+<body onload="myTimer();">
+<div id="demo"></div>
+<div id="demo2"></div>
+<div class="letter-row">
+<div id="l000" class="letter">E</div>
+<div id="l001" class="letter">S</div>
+<div id="l002" class="letter">L</div>
+<div id="l003" class="letter">W</div>
+<div id="l004" class="letter">A</div>
+<div id="l005" class="letter">R</div>
+<div id="l006" class="letter">I</div>
+<div id="l007" class="letter">S</div>
+<div id="l008" class="letter">T</div>
+<div id="l009" class="letter">O</div>
+<div id="l010" class="letter">X</div>
+<div id="l011" class="letter">E</div>
+</div>
+
+<div class="letter-row">
+<div id="l023" class="letter">G</div>
+<div id="l022" class="letter">L</div>
+<div id="l021" class="letter">E</div>
+<div id="l020" class="letter">I</div>
+<div id="l019" class="letter">C</div>
+<div id="l018" class="letter">H</div>
+<div id="l017" class="letter">S</div>
+<div id="l016" class="letter">G</div>
+<div id="l015" class="letter">E</div>
+<div id="l014" class="letter">N</div>
+<div id="l013" class="letter">A</div>
+<div id="l012" class="letter">U</div>
+</div>
+
+<div class="letter-row">
+<div id="l024" class="letter">G</div>
+<div id="l025" class="letter">E</div>
+<div id="l026" class="letter">R</div>
+<div id="l027" class="letter">A</div>
+<div id="l028" class="letter">D</div>
+<div id="l029" class="letter">E</div>
+<div id="l030" class="letter">H</div>
+<div id="l031" class="letter">F</div>
+<div id="l032" class="letter">Ü</div>
+<div id="l033" class="letter">N</div>
+<div id="l034" class="letter">F</div>
+<div id="l035" class="letter">K</div>
+</div>
+
+<div class="letter-row">
+<div id="l047" class="letter">D</div>
+<div id="l046" class="letter">R</div>
+<div id="l045" class="letter">E</div>
+<div id="l044" class="letter">I</div>
+<div id="l043" class="letter">V</div>
+<div id="l042" class="letter">I</div>
+<div id="l041" class="letter">E</div>
+<div id="l040" class="letter">R</div>
+<div id="l039" class="letter">T</div>
+<div id="l038" class="letter">E</div>
+<div id="l037" class="letter">L</div>
+<div id="l036" class="letter">Q</div>
+</div>
+
+<div class="letter-row">
+<div id="l048" class="letter">Z</div>
+<div id="l049" class="letter">E</div>
+<div id="l050" class="letter">H</div>
+<div id="l051" class="letter">N</div>
+<div id="l052" class="letter">P</div>
+<div id="l053" class="letter">Z</div>
+<div id="l054" class="letter">W</div>
+<div id="l055" class="letter">A</div>
+<div id="l056" class="letter">N</div>
+<div id="l057" class="letter">Z</div>
+<div id="l058" class="letter">I</div>
+<div id="l059" class="letter">G</div>
+</div>
+
+<div class="letter-row">
+<div id="l071" class="letter">N</div>
+<div id="l070" class="letter">A</div>
+<div id="l069" class="letter">C</div>
+<div id="l068" class="letter">H</div>
+<div id="l067" class="letter">V</div>
+<div id="l066" class="letter">O</div>
+<div id="l065" class="letter">R</div>
+<div id="l064" class="letter">B</div>
+<div id="l063" class="letter">H</div>
+<div id="l062" class="letter">A</div>
+<div id="l061" class="letter">L</div>
+<div id="l060" class="letter">B</div>
+</div>
+
+<div class="letter-row">
+<div id="l072" class="letter">D</div>
+<div id="l073" class="letter">R</div>
+<div id="l074" class="letter">E</div>
+<div id="l075" class="letter">I</div>
+<div id="l076" class="letter">N</div>
+<div id="l077" class="letter">S</div>
+<div id="l078" class="letter">I</div>
+<div id="l079" class="letter">E</div>
+<div id="l080" class="letter">B</div>
+<div id="l081" class="letter">E</div>
+<div id="l082" class="letter">N</div>
+<div id="l083" class="letter">T</div>
+</div>
+
+<div class="letter-row">
+<div id="l095" class="letter">E</div>
+<div id="l094" class="letter">L</div>
+<div id="l093" class="letter">F</div>
+<div id="l092" class="letter">Ü</div>
+<div id="l091" class="letter">N</div>
+<div id="l090" class="letter">F</div>
+<div id="l089" class="letter">J</div>
+<div id="l088" class="letter">Z</div>
+<div id="l087" class="letter">W</div>
+<div id="l086" class="letter">Ö</div>
+<div id="l085" class="letter">L</div>
+<div id="l084" class="letter">F</div>
+</div>
+
+<div class="letter-row">
+<div id="l096" class="letter">V</div>
+<div id="l097" class="letter">I</div>
+<div id="l098" class="letter">E</div>
+<div id="l099" class="letter">R</div>
+<div id="l100" class="letter">Z</div>
+<div id="l101" class="letter">W</div>
+<div id="l102" class="letter">E</div>
+<div id="l103" class="letter">I</div>
+<div id="l104" class="letter">A</div>
+<div id="l105" class="letter">C</div>
+<div id="l106" class="letter">H</div>
+<div id="l107" class="letter">T</div>
+</div>
+
+<div class="letter-row">
+<div id="l119" class="letter">M</div>
+<div id="l118" class="letter">N</div>
+<div id="l117" class="letter">E</div>
+<div id="l116" class="letter">U</div>
+<div id="l115" class="letter">N</div>
+<div id="l114" class="letter">G</div>
+<div id="l113" class="letter">S</div>
+<div id="l112" class="letter">E</div>
+<div id="l111" class="letter">C</div>
+<div id="l110" class="letter">H</div>
+<div id="l109" class="letter">S</div>
+<div id="l108" class="letter">Y</div>
+</div>
+
+<div class="letter-row">
+<div id="l120" class="letter">Z</div>
+<div id="l121" class="letter">E</div>
+<div id="l122" class="letter">H</div>
+<div id="l123" class="letter">N</div>
+<div id="l124" class="letter">F</div>
+<div id="l125" class="letter">U</div>
+<div id="l126" class="letter">H</div>
+<div id="l127" class="letter">R</div>
+<div id="l128" class="letter">Ä</div>
+<div id="l129" class="letter">V</div>
+<div id="l130" class="letter">O</div>
+<div id="l131" class="letter">R</div>
+</div>
+
+<div class="letter-row">
+<div id="l143" class="letter">N</div>
+<div id="l142" class="letter">A</div>
+<div id="l141" class="letter">C</div>
+<div id="l140" class="letter">H</div>
+<div id="l139" class="letter">T</div>
+<div id="l138" class="letter">S</div>
+<div id="l137" class="letter">M</div>
+<div id="l136" class="letter">I</div>
+<div id="l135" class="letter">T</div>
+<div id="l134" class="letter">T</div>
+<div id="l133" class="letter">A</div>
+<div id="l132" class="letter">G</div>
+</div>
+</body>
+</html>
