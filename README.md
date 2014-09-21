@@ -1,4 +1,4 @@
-mywordclock
+myletterclock
 ===========
 
-A wordclock with WS2812 led strips.
+A letterclock with WS2812 led strips.
