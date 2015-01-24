@@ -12,7 +12,7 @@ div.letter-row {
 }
 div.letter {
     display:table-cell;
-    color: white;
+    color: #888888;
     width: 25px;
     height: 25px;
     text-align: center;
@@ -69,7 +69,7 @@ function myTimer() {
     for (var i = 0; i < 144; i++)
     {
         ledid = "l" + ("00" + i).slice(-3);
-        document.getElementById(ledid).style.color = "white";
+        document.getElementById(ledid).style.color = "#888888";
     }
     ledid = "l" + ("00" + test).slice(-3);
     //document.getElementById(ledid).style.color = "red";
@@ -228,7 +228,7 @@ function light(word)
     for(var letter in wordarray)
     {
         var ledid = "l" + ("00" + wordarray[letter]).slice(-3);
-        document.getElementById(ledid).style.color = "red";
+        document.getElementById(ledid).style.color = "white";
     }
 }
 </script>
