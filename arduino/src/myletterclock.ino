@@ -1,14 +1,14 @@
-// Date and time functions using a DS1307 RTC connected via I2C and Wire lib
+// Date and time functions using a DS1307 RTmillis() connected via I2C and Wire lib
 #include <Wire.h>
-#include <DS1307RTC.h>
 #include <Time.h>
+/* #include <DS1307RTC.h> */
 #include "Adafruit_NeoPixel.h"
 /* #include "TimerOne.h" */
-#include "DCF77.h"
+/* #include "DCF77.h" */
 
 #define DCF_PIN 2                // Connection pin to DCF 77 device
 #define DCF_INTERRUPT 0          // Interrupt number associated with pin
-DCF77 DCF = DCF77(DCF_PIN,DCF_INTERRUPT, true);
+/* DCF77 DCF = DCF77(DCF_PIN,DCF_INTERRUPT, true); */
 
 //define the data pin
 #define LEDPIN 10
@@ -23,54 +23,101 @@ DCF77 DCF = DCF77(DCF_PIN,DCF_INTERRUPT, true);
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXEL, LEDPIN, NEO_GRB | NEO_KHZ800);
 
+#define TIME_MSG_LEN  11   // time sync to PC is HEADER followed by unix time_t as ten ascii digits
+#define TIME_HEADER  'T'   // Header tag for serial time sync message
+#define TIME_REQUEST  7    // ASCII bell character requests a time sync message
+
 unsigned int i = 0;
 static unsigned long msLast = 0;
 
 typedef uint32_t Color;
 Color cBlack = 0;
-Color cWhite = 0;
-Color cRed = 0;
-Color cGreen = 0;
-Color cBlue = 0;
+Color cWhite = 0x7F7F7F;
+Color cRed = 0x7F0000;
+Color cGreen = 0x7F00;
+Color cBlue = 0x7F;
 
 void setup ()
 {
     /* Timer1.initialize(1000000);       // Initialize timer to 1s */
     /* Timer1.attachInterrupt(checktime);  // Attach funciton checktime to timer interupt */
-    Serial.begin(57600);
+    Serial.begin(9600);
+    setSyncProvider( requestSync);  //set function to call when sync required
+
+
     strip.begin();                  // Initialize NeoPixel object
     strip.show();                   // Initialize all pixels to '}ff'
 
     msLast = millis();
 
-    DCF.Start();
+    /* DCF.Start(); */
 
+    /* setSyncProvider(RTC.get); */
     // define global colors
-    cBlack = strip.Color(0,0,0);
-    cWhite = strip.Color(127,127,127);
-    cRed = strip.Color(127,0,0);
-    cGreen = strip.Color(0,127,0);
-    cBlue = strip.Color(0,0,127);
+    /* cBlack = strip.Color(0,0,0); */
+    /* cWhite = 0x7F7F7F;//strip.Color(127,127,127); */
+    /* cRed = 0x7F0000;//strip.Color(127,0,0); */
+    /* cGreen = 0x7F00;//strip.Color(0,127,0); */
+    /* cBlue = 0x7F;//strip.Color(0,0,127); */
 }
 
 void loop ()
 {
-    unsigned long msNow = millis();
-    if((msNow - msLast > 999) || (msNow < msLast)) 
+    if(Serial.available())
     {
-        msLast= millis();
-        checktime();
+        processSyncMessage();
+    }
+    /* unsigned long msNow = millis(); */
+    if((millis() - msLast > 999) || (millis() < msLast))
+    {
+        msLast = millis();
+        i++;
+        displaytime();
+    }
+    /* if(i == 300) */
+    /* { */
+    /*     time_t DCFtime = DCF.getTime(); */
+    /*     if((DCFtime != 0) && (DCFtime != RTC.get())) */
+    /*     /1* if(DCF.getTime() != RTC.get()) *1/ */
+    /*     { */
+    /*         RTC.set(DCF.getTime()); */
+    /*     } */
+    /* } */
+}
+
+void processSyncMessage() {
+    // if time sync available from serial port, update time and return true
+    while(Serial.available() >=  TIME_MSG_LEN ){  // time message consists of a header and ten ascii digits
+        char c = Serial.read();
+        Serial.print(c);
+        if( c == TIME_HEADER )
+        {
+            time_t pctime = 0;
+            for(int i=0; i < TIME_MSG_LEN -1; i++)
+            {
+                c = Serial.read();
+                if( c >= '0' && c <= '9')
+                {
+                    pctime = (10 * pctime) + (c - '0') ; // convert digits to a number
+                }
+            }
+            setTime(pctime);   // Sync Arduino clock to the time received on the serial port
+        }
     }
 }
 
-void checktime()
+time_t requestSync()
 {
-    tmElements_t tm;
-    RTC.read(tm);
-    int hour = tm.Hour;
-    int minute = tm.Minute;
-    int minutemod5 = minute % 5;
-    int second = tm.Second;
+    Serial.write(TIME_REQUEST);
+    return 0; // the time will be sent later in response to serial mesg
+}
+
+void displaytime()
+{
+    int Hour = hour();
+    int Minute = minute();
+    int Second = second();
+    int Minutemod5 = Minute % 5;
     Color cBackground = cBlack;
     Color cForeground = cWhite;
     for(int j = 0; j < NUMPIXEL; j++)
@@ -78,151 +125,152 @@ void checktime()
         strip.setPixelColor(j,cBackground);
     }
     lightEs(cForeground);
-    if((minutemod5 == 1 || minutemod5 == 2) && (minute != 0))
+    if((Minutemod5 == 1 || Minutemod5 == 2) && (Minute != 0))
     {
         lightWar(cForeground);
     }
-    else// if(minutemod5 == 0 || minutemod5 == 3 || minutemod5 == 4)
+    else// if(Minutemod5 == 0 || Minutemod5 == 3 || Minutemod5 == 4)
     {
         lightIst(cForeground);
     }
-    if(minutemod5 == 3 || minutemod5 == 4)
+    if(Minutemod5 == 3 || Minutemod5 == 4)
     {
         lightGleich(cForeground);
     }
-    if(minute == 0)
+    if(Minute == 0)
     {
         lightGenau(cForeground);
     }
-    if((minutemod5 == 0 || minutemod5 == 1 || minutemod5 == 2) && (minute != 0))
+    if((Minutemod5 == 0 || Minutemod5 == 1 || Minutemod5 == 2) && (Minute != 0))
     {
         lightGerade(cForeground);
     }
-    if((minute >= 3 && minute <= 7) ||
-            (minute >= 23 && minute <= 27) ||
-            (minute >= 33 && minute <= 37) ||
-            (minute >= 53 && minute <= 57))
+    if((Minute >= 3 && Minute <= 7) ||
+            (Minute >= 23 && Minute <= 27) ||
+            (Minute >= 33 && Minute <= 37) ||
+            (Minute >= 53 && Minute <= 57))
     {
         lightFuenf1(cForeground);
     }
-    if((minute >= 13 && minute <= 17) ||
-            (minute >= 43 && minute <= 47))
+    if((Minute >= 13 && Minute <= 17) ||
+            (Minute >= 43 && Minute <= 47))
     {
         lightViertel(cForeground);
     }
-    if((minute >= 8 && minute <= 12) ||
-            (minute >= 48 && minute <= 52))
+    if((Minute >= 8 && Minute <= 12) ||
+            (Minute >= 48 && Minute <= 52))
     {
         lightZehn1(cForeground);
     }
-    if((minute >= 18 && minute <= 22) ||
-            (minute >= 38 && minute <= 42))
+    if((Minute >= 18 && Minute <= 22) ||
+            (Minute >= 38 && Minute <= 42))
     {
         lightZwanzig(cForeground);
     }
-    if((minute >= 3 && minute <= 22) ||
-            (minute >= 33 && minute <= 37))
+    if((Minute >= 3 && Minute <= 22) ||
+            (Minute >= 33 && Minute <= 37))
     {
         lightNach1(cForeground);
     }
-    if((minute >= 23 && minute <= 27) ||
-            (minute >= 38 && minute <= 57))
+    if((Minute >= 23 && Minute <= 27) ||
+            (Minute >= 38 && Minute <= 57))
     {
         lightVor1(cForeground);
     }
-    if(minute >= 23 && minute <= 37)
+    if(Minute >= 23 && Minute <= 37)
     {
         lightHalb(cForeground);
     }
-    if(((hour ==  1 || hour == 13) && minute <= 22) ||
-            ((hour ==  0 || hour == 12) && minute >= 23))
+    if(((Hour ==  1 || Hour == 13) && Minute <= 22) ||
+            ((Hour ==  0 || Hour == 12) && Minute >= 23))
     {
         lightEins(cForeground);
     }
-    if(((hour ==  2 || hour == 14) && minute <= 22) ||
-            ((hour ==  1 || hour == 13) && minute >= 23))
+    if(((Hour ==  2 || Hour == 14) && Minute <= 22) ||
+            ((Hour ==  1 || Hour == 13) && Minute >= 23))
     {
         lightZwei(cForeground);
     }
-    if(((hour ==  3 || hour == 15) && minute <= 22) ||
-            ((hour ==  2 || hour == 14) && minute >= 23))
+    if(((Hour ==  3 || Hour == 15) && Minute <= 22) ||
+            ((Hour ==  2 || Hour == 14) && Minute >= 23))
     {
         lightDrei(cForeground);
     }
-    if(((hour ==  4 || hour == 16) && minute <= 22) ||
-            ((hour ==  3 || hour == 15) && minute >= 23))
+    if(((Hour ==  4 || Hour == 16) && Minute <= 22) ||
+            ((Hour ==  3 || Hour == 15) && Minute >= 23))
     {
         lightVier(cForeground);
     }
-    if(((hour ==  5 || hour == 17) && minute <= 22) ||
-            ((hour ==  4 || hour == 16) && minute >= 23))
+    if(((Hour ==  5 || Hour == 17) && Minute <= 22) ||
+            ((Hour ==  4 || Hour == 16) && Minute >= 23))
     {
         lightFuenf2(cForeground);
     }
-    if(((hour ==  6 || hour == 18) && minute <= 22) ||
-            ((hour ==  5 || hour == 17) && minute >= 23))
+    if(((Hour ==  6 || Hour == 18) && Minute <= 22) ||
+            ((Hour ==  5 || Hour == 17) && Minute >= 23))
     {
         lightSechs(cForeground);
     }
-    if(((hour ==  7 || hour == 19) && minute <= 22) ||
-            ((hour ==  6 || hour == 18) && minute >= 23))
+    if(((Hour ==  7 || Hour == 19) && Minute <= 22) ||
+            ((Hour ==  6 || Hour == 18) && Minute >= 23))
     {
         lightSieben(cForeground);
     }
-    if(((hour ==  8 || hour == 20) && minute <= 22) ||
-            ((hour ==  7 || hour == 19) && minute >= 23))
+    if(((Hour ==  8 || Hour == 20) && Minute <= 22) ||
+            ((Hour ==  7 || Hour == 19) && Minute >= 23))
     {
         lightAcht(cForeground);
     }
-    if(((hour ==  9 || hour == 21) && minute <= 22) ||
-            ((hour ==  8 || hour == 20) && minute >= 23))
+    if(((Hour ==  9 || Hour == 21) && Minute <= 22) ||
+            ((Hour ==  8 || Hour == 20) && Minute >= 23))
     {
         lightNeun(cForeground);
     }
-    if(((hour ==  10 || hour == 22) && minute <= 22) ||
-            ((hour ==  9 || hour == 21) && minute >= 23))
+    if(((Hour ==  10 || Hour == 22) && Minute <= 22) ||
+            ((Hour ==  9 || Hour == 21) && Minute >= 23))
     {
         lightZehn2(cForeground);
     }
-    if(((hour ==  11 || hour == 23) && minute <= 22) ||
-            ((hour ==  10 || hour == 22) && minute >= 23))
+    if(((Hour ==  11 || Hour == 23) && Minute <= 22) ||
+            ((Hour ==  10 || Hour == 22) && Minute >= 23))
     {
         lightElf(cForeground);
     }
-    if(((hour ==  12 || hour == 0) && minute <= 22) ||
-            ((hour ==  11 || hour == 23) && minute >= 23))
+    if(((Hour ==  12 || Hour == 0) && Minute <= 22) ||
+            ((Hour ==  11 || Hour == 23) && Minute >= 23))
     {
         lightZwoelf(cForeground);
     }
-    if(minute >= 58 || minute <= 2)
+    if(Minute >= 58 || Minute <= 2)
     {
         lightUhr(cForeground);
     }
-    if((hour ==  5  && minute >= 23) ||
-            (hour >= 6 && hour <= 10) ||
-            (hour ==  11  && minute <= 22))
+    if((Hour ==  5  && Minute >= 23) ||
+            (Hour >= 6 && Hour <= 10) ||
+            (Hour ==  11  && Minute <= 22))
     {
         lightVor2(cForeground);
         lightMittag(cForeground);
     }
-    if((hour ==  12  && minute >= 23) ||
-            (hour >= 13 && hour <= 18) ||
-            (hour ==  19  && minute <= 22))
+    if((Hour ==  12  && Minute >= 23) ||
+            (Hour >= 13 && Hour <= 18) ||
+            (Hour ==  19  && Minute <= 22))
     {
         lightNach2(cForeground);
         lightMittag(cForeground);
     }
-    if((hour ==  19  && minute >= 23) ||
-            (hour >= 20 || hour <= 5) ||
-            (hour ==  5  && minute <= 22))
+    if((Hour ==  19  && Minute >= 23) ||
+            (Hour >= 20 || Hour <= 5) ||
+            (Hour ==  5  && Minute <= 22))
     {
         lightNachts(cForeground);
     }
-    if((hour ==  11  && minute >= 23) ||
-            (hour ==  12  && minute <= 22))
+    if((Hour ==  11  && Minute >= 23) ||
+            (Hour ==  12  && Minute <= 22))
     {
         lightMittag(cForeground);
     }
+    strip.show();
 }
 
 void lightEs(uint32_t color)
