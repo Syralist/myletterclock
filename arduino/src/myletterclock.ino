@@ -3,7 +3,7 @@
 #include <DS1307RTC.h>
 #include <Time.h>
 #include "Adafruit_NeoPixel.h"
-#include "TimerOne.h"
+/* #include "TimerOne.h" */
 #include "DCF77.h"
 
 #define DCF_PIN 2                // Connection pin to DCF 77 device
@@ -11,7 +11,7 @@
 DCF77 DCF = DCF77(DCF_PIN,DCF_INTERRUPT, true);
 
 //define the data pin
-#define PIN 10
+#define LEDPIN 10
 //define number of pixels
 #define NUMPIXEL 144
 // Parameter 1 = number of pixels in strip
@@ -21,9 +21,10 @@ DCF77 DCF = DCF77(DCF_PIN,DCF_INTERRUPT, true);
 //   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXEL, PIN, NEO_GRB | NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXEL, LEDPIN, NEO_GRB | NEO_KHZ800);
 
 unsigned int i = 0;
+static unsigned long msLast = 0;
 
 typedef uint32_t Color;
 Color cBlack = 0;
@@ -34,11 +35,13 @@ Color cBlue = 0;
 
 void setup ()
 {
-    Timer1.initialize(1000000);       // Initialize timer to 1s
-    Timer1.attachInterrupt(checktime);  // Attach funciton checktime to timer interupt
+    /* Timer1.initialize(1000000);       // Initialize timer to 1s */
+    /* Timer1.attachInterrupt(checktime);  // Attach funciton checktime to timer interupt */
     Serial.begin(57600);
     strip.begin();                  // Initialize NeoPixel object
     strip.show();                   // Initialize all pixels to '}ff'
+
+    msLast = millis();
 
     DCF.Start();
 
@@ -52,6 +55,12 @@ void setup ()
 
 void loop ()
 {
+    unsigned long msNow = millis();
+    if((msNow - msLast > 999) || (msNow < msLast)) 
+    {
+        msLast= millis();
+        checktime();
+    }
 }
 
 void checktime()
@@ -73,7 +82,7 @@ void checktime()
     {
         lightWar(cForeground);
     }
-    if(minutemod5 == 0 || minutemod5 == 3 || minutemod5 == 4)
+    else// if(minutemod5 == 0 || minutemod5 == 3 || minutemod5 == 4)
     {
         lightIst(cForeground);
     }
