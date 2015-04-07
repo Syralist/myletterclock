@@ -1,14 +1,15 @@
 // Date and time functions using a DS1307 RTmillis() connected via I2C and Wire lib
 #include <Wire.h>
 #include <Time.h>
-/* #include <DS1307RTC.h> */
+#include <Timezone.h>
+#include <DS1307RTC.h>
 #include "Adafruit_NeoPixel.h"
 /* #include "TimerOne.h" */
-/* #include "DCF77.h" */
+#include "DCF77.h"
 
 #define DCF_PIN 2                // Connection pin to DCF 77 device
 #define DCF_INTERRUPT 0          // Interrupt number associated with pin
-/* DCF77 DCF = DCF77(DCF_PIN,DCF_INTERRUPT, true); */
+DCF77 DCF = DCF77(DCF_PIN,DCF_INTERRUPT, true);
 
 //define the data pin
 #define LEDPIN 10
@@ -27,6 +28,13 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPIXEL, LEDPIN, NEO_GRB | NEO_KHZ8
 #define TIME_HEADER  'T'   // Header tag for serial time sync message
 #define TIME_REQUEST  7    // ASCII bell character requests a time sync message
 
+//Central European Time (Frankfurt, Paris)
+TimeChangeRule CEST = {"CEST", Last, Sun, Mar, 2, 120};     //Central European Summer Time
+TimeChangeRule CET = {"CET ", Last, Sun, Oct, 3, 60};       //Central European Standard Time
+Timezone CE(CEST, CET);
+TimeChangeRule *tcr;        //pointer to the time change rule, use to get the TZ abbrev
+time_t utc;
+
 unsigned int i = 0;
 static unsigned long msLast = 0;
 
@@ -42,7 +50,7 @@ void setup ()
     /* Timer1.initialize(1000000);       // Initialize timer to 1s */
     /* Timer1.attachInterrupt(checktime);  // Attach funciton checktime to timer interupt */
     Serial.begin(9600);
-    setSyncProvider( requestSync);  //set function to call when sync required
+    /* setSyncProvider( requestSync);  //set function to call when sync required */
 
 
     strip.begin();                  // Initialize NeoPixel object
@@ -50,9 +58,9 @@ void setup ()
 
     msLast = millis();
 
-    /* DCF.Start(); */
+    DCF.Start();
 
-    /* setSyncProvider(RTC.get); */
+    setSyncProvider(RTC.get);
     // define global colors
     /* cBlack = strip.Color(0,0,0); */
     /* cWhite = 0x7F7F7F;//strip.Color(127,127,127); */
@@ -72,17 +80,17 @@ void loop ()
     {
         msLast = millis();
         i++;
-        displaytime();
+        utc = now();
+        displaytime(CE.toLocal(utc, &tcr));
     }
-    /* if(i == 300) */
-    /* { */
-    /*     time_t DCFtime = DCF.getTime(); */
-    /*     if((DCFtime != 0) && (DCFtime != RTC.get())) */
-    /*     /1* if(DCF.getTime() != RTC.get()) *1/ */
-    /*     { */
-    /*         RTC.set(DCF.getTime()); */
-    /*     } */
-    /* } */
+    if(i == 300)
+    {
+        time_t DCFtime = DCF.getTime();
+        if((DCFtime != 0) && (DCFtime != now()))
+        {
+            RTC.set(DCFtime);
+        }
+    }
 }
 
 void processSyncMessage() {
@@ -101,7 +109,7 @@ void processSyncMessage() {
                     pctime = (10 * pctime) + (c - '0') ; // convert digits to a number
                 }
             }
-            setTime(pctime);   // Sync Arduino clock to the time received on the serial port
+            RTC.set(pctime);   // Sync Arduino clock to the time received on the serial port
         }
     }
 }
@@ -112,11 +120,11 @@ time_t requestSync()
     return 0; // the time will be sent later in response to serial mesg
 }
 
-void displaytime()
+void displaytime(time_t t)
 {
-    int Hour = hour();
-    int Minute = minute();
-    int Second = second();
+    int Hour = hour(t);
+    int Minute = minute(t);
+    int Second = second(t);
     int Minutemod5 = Minute % 5;
     Color cBackground = cBlack;
     Color cForeground = cWhite;
