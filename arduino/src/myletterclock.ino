@@ -359,13 +359,13 @@ void lightZehn1(uint32_t color)
 
 void lightZwanzig(uint32_t color)
 {
-    strip.setPixelColor(88, color);
     strip.setPixelColor(89, color);
     strip.setPixelColor(90, color);
     strip.setPixelColor(91, color);
     strip.setPixelColor(92, color);
     strip.setPixelColor(93, color);
     strip.setPixelColor(94, color);
+    strip.setPixelColor(95, color);
 }
 
 void lightNach1(uint32_t color)
