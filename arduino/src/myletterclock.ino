@@ -72,6 +72,11 @@ void setup ()
 
 void loop ()
 {
+    int poti;
+    float brightness;
+    poti = analogRead(0);
+    brightness = ((float)poti/1023.0)*255.0;
+    cWhite = strip.Color(brightness, brightness, brightness);
     if(Serial.available())
     {
         processSyncMessage();
