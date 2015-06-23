@@ -40,7 +40,8 @@ static unsigned long msLast = 0;
 
 typedef uint32_t Color;
 Color cBlack = 0;
-Color cWhite = 0x7F7F7F;
+/* Color cWhite = 0x7F7F7F; */
+Color cWhite = 0x555555;
 Color cRed = 0x7F0000;
 Color cGreen = 0x7F00;
 Color cBlue = 0x7F;
@@ -110,6 +111,8 @@ void processSyncMessage() {
                 }
             }
             RTC.set(pctime);   // Sync Arduino clock to the time received on the serial port
+            Serial.print("Time set to: ");
+            Serial.print(pctime);
         }
     }
 }
