@@ -276,7 +276,7 @@ void displaytime(time_t t)
         lightMittag(cForeground);
     }
     if((Hour ==  19  && Minute >= 23) ||
-            (Hour >= 20 || Hour <= 5) ||
+            (Hour >= 20 || Hour <= 4) ||
             (Hour ==  5  && Minute <= 22))
     {
         lightNachts(cForeground);
