@@ -5,11 +5,11 @@
 #include <DS1307RTC.h>
 #include "Adafruit_NeoPixel.h"
 /* #include "TimerOne.h" */
-#include "DCF77.h"
+/* #include "DCF77.h" */
 
-#define DCF_PIN 2                // Connection pin to DCF 77 device
-#define DCF_INTERRUPT 0          // Interrupt number associated with pin
-DCF77 DCF = DCF77(DCF_PIN,DCF_INTERRUPT, true);
+/* #define DCF_PIN 2                // Connection pin to DCF 77 device */
+/* #define DCF_INTERRUPT 0          // Interrupt number associated with pin */
+/* DCF77 DCF = DCF77(DCF_PIN,DCF_INTERRUPT, true); */
 
 //define the data pin
 #define LEDPIN 10
@@ -59,7 +59,7 @@ void setup ()
 
     msLast = millis();
 
-    DCF.Start();
+    /* DCF.Start(); */
 
     setSyncProvider(RTC.get);
     // define global colors
@@ -89,14 +89,14 @@ void loop ()
         utc = now();
         displaytime(CE.toLocal(utc, &tcr));
     }
-    if(i == 300)
-    {
-        time_t DCFtime = DCF.getTime();
-        if((DCFtime != 0) && (DCFtime != now()))
-        {
-            RTC.set(DCFtime);
-        }
-    }
+    /* if(i == 300) */
+    /* { */
+    /*     time_t DCFtime = DCF.getTime(); */
+    /*     if((DCFtime != 0) && (DCFtime != now())) */
+    /*     { */
+    /*         RTC.set(DCFtime); */
+    /*     } */
+    /* } */
 }
 
 void processSyncMessage() {
