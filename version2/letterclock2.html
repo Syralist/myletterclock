@@ -21,10 +21,71 @@
         color: white;
         font-weight: bold;
     }
+    div.letter.month {
+        color: blue;
+        font-weight: bold;
+    }
+    div.letter.day {
+        color: green;
+        font-weight: bold;
+    }
 </style>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $( "#toggledemo" ).button();
+        $( "#demoHour" ).spinner({
+            min: 0, 
+            max: 23
+        });
+        $( "#demoMinute" ).spinner({
+            spin: function( event, ui ) {
+                if ( ui.value > 59 ) {
+                    $( this ).spinner( "value", 0 );
+                    return false;
+                } else if ( ui.value < 0 ) {
+                    $( this ).spinner( "value", 59 );
+                    return false;
+                }
+            }
+        });
+        $( "#demoDay" ).spinner({
+            spin: function( event, ui ) {
+                if ( ui.value > 31 ) {
+                    $( this ).spinner( "value", 1 );
+                    return false;
+                } else if ( ui.value < 1 ) {
+                    $( this ).spinner( "value", 31 );
+                    return false;
+                }
+            }
+        });
+        $( "#demoMonth" ).spinner({
+            spin: function( event, ui ) {
+                if ( ui.value > 12 ) {
+                    $( this ).spinner( "value", 1 );
+                    return false;
+                } else if ( ui.value < 1 ) {
+                    $( this ).spinner( "value", 12 );
+                    return false;
+                }
+            }
+        });
+    });
+</script>
 <script type="text/javascript">
     var myVar=setInterval(function () {
-        d = new Date();
+            var d = new Date();
+        if( $("#toggledemo").prop("checked") == true)
+        {
+            d.setHours($("#demoHour").val());
+            d.setMinutes($("#demoMinute").val());
+            d.setMonth($("#demoMonth").val()-1);
+            d.setDate($("#demoDay").val());
+            d.setSeconds(0);
+        }
         myTimer(d);
     }, 1000);
     var test = 0;
@@ -62,10 +123,40 @@
     words["NACHTS"] = new Array(8, 9, 10, 11, 12, 13);
     words["MORGENS"] = new Array(14, 15, 16, 17, 18, 19, 20);
     words["ABENDS"] = new Array(0, 1, 2, 3, 4, 5);
+    var months = {};
+    months[1] = 187;
+    months[2] = 176;
+    months[3] = 159;
+    months[4] = 148;
+    months[5] = 131;
+    months[6] = 120;
+    months[7] = 103;
+    months[8] = 92;
+    months[9] = 75;
+    months[10] = 64;
+    months[11] = 47;
+    months[12] = 36;
+    var day10 = {};
+    day10[1] = 184;
+    day10[2] = 185;
+    day10[3] = 186;
+    var day1 = {};
+    day1[0] = 188;
+    day1[1] = 175;
+    day1[2] = 160;
+    day1[3] = 147;
+    day1[4] = 132;
+    day1[5] = 149;
+    day1[6] = 130;
+    day1[7] = 121;
+    day1[8] = 102;
+    day1[9] = 93;
     function myTimer(inputdate) {
         var a = performance.now();
         //var d = new Date();
         var d = inputdate;
+        var month = d.getMonth()+1;
+        var day = d.getDate();
         var hour = d.getHours();
         var minute = d.getMinutes();
         var second = d.getSeconds();
@@ -75,15 +166,17 @@
         test += 1;
         if(test==144)
             test=0;
-        document.getElementById("demo").innerHTML = d.toLocaleTimeString();
-        //document.getElementById("demo2").innerHTML = ("00"+test).slice(-3);
+        document.getElementById("demo").innerHTML = d.toLocaleString();
         for (var i = 0; i < 196; i++)
         {
             ledid = "l" + ("00" + i).slice(-3);
             document.getElementById(ledid).classList.remove("time");
+            document.getElementById(ledid).classList.remove("month");
+            document.getElementById(ledid).classList.remove("day");
         }
         ledid = "l" + ("00" + test).slice(-3);
-        //document.getElementById(ledid).style.color = "red";
+        lightMonth(month);
+        lightDay(day);
         light("ES");
         if((minutemod5 == 1 || minutemod5 == 2) && (minute != 0))
         {
@@ -241,6 +334,21 @@
             var ledid = "l" + ("00" + wordarray[letter]).slice(-3);
             document.getElementById(ledid).classList.add("time");
         }
+    }
+    function lightMonth(month)
+    {
+        var ledid = "l" + ("00" + months[month]).slice(-3);
+        document.getElementById(ledid).classList.add("month");
+    }
+    function lightDay(day)
+    {
+        if(day>=10)
+        {
+            var ledid = "l" + ("00" + day10[Math.floor(day/10)]).slice(-3);
+            document.getElementById(ledid).classList.add("day");
+        }
+        var ledid = "l" + ("00" + day1[day%10]).slice(-3);
+        document.getElementById(ledid).classList.add("day");
     }
 </script>
 </head>
@@ -484,5 +592,13 @@
 <div id="l001" class="letter">D</div>
 <div id="l000" class="letter">S</div>
 </div>
+
+<input type="checkbox" id="toggledemo"><label for="toggledemo">Demo-Modus</label>
+<form id="demoTime">
+    <label for="demoHour">Stunde</label><input id="demoHour" /><input id="demoMinute" /><label for="demoMinute">Minute</label>
+</form>
+<form id="demoDate">
+    <label for="demoDay">Tag</label><input id="demoDay" /><input id="demoMonth" /><label for="demoMonth">Monat</label>
+</form>
 </body>
 </html>
