@@ -178,25 +178,20 @@
         lightMonth(month);
         lightDay(day);
         light("ES");
-        if((minutemod5 == 1 || minutemod5 == 2) && (minute != 0))
+        if(minutemod5 == 1 || minutemod5 == 2)
         {
             light("WAR");
-        }
-        if(minutemod5 == 0 || minutemod5 == 3 || minutemod5 == 4)
-        {
-            light("IST");
+            light("GERADE");
         }
         if(minutemod5 == 3 || minutemod5 == 4)
         {
+            light("WIRD");
             light("GLEICH");
         }
-        if(minute == 0)
+        if(minutemod5 == 0)
         {
+            light("IST");
             light("GENAU");
-        }
-        if((minutemod5 == 0 || minutemod5 == 1 || minutemod5 == 2) && (minute != 0))
-        {
-            light("GERADE");
         }
         if((minute >= 3 && minute <= 7) || 
                 (minute >= 23 && minute <= 27) || 
@@ -298,30 +293,42 @@
         {
             light("UHR");
         }
-        if((hour ==  5  && minute >= 23) || 
-                (hour >= 6 && hour <= 10) ||
+        if((hour ==  22  && minute >= 23) || 
+                (hour >= 23 && hour <= 3) ||
+                (hour ==  4  && minute <= 22))
+        {
+            light("NACHTS");
+        }
+        if((hour ==  4  && minute >= 23) || 
+                (hour >= 5 && hour <= 8) ||
+                (hour ==  9  && minute <= 22))
+        {
+            light("MORGENS");
+        }
+        if((hour ==  9  && minute >= 23) || 
+                (hour >= 10 && hour <= 10) ||
                 (hour ==  11  && minute <= 22))
         {
             light("VOR2");
             light("MITTAG");
         }
-        if((hour ==  12  && minute >= 23) || 
-                (hour >= 13 && hour <= 18) ||
-                (hour ==  19  && minute <= 22))
-        {
-            light("NACH2");
-            light("MITTAG");
-        }
-        if((hour ==  19  && minute >= 23) || 
-                (hour >= 20 || hour <= 5) ||
-                (hour ==  5  && minute <= 22))
-        {
-            light("NACHTS");
-        }
         if((hour ==  11  && minute >= 23) || 
                 (hour ==  12  && minute <= 22))
         {
             light("MITTAG");
+        }
+        if((hour ==  12  && minute >= 23) || 
+                (hour >= 13 && hour <= 16) ||
+                (hour ==  17  && minute <= 22))
+        {
+            light("NACH2");
+            light("MITTAG");
+        }
+        if((hour ==  17  && minute >= 23) || 
+                (hour >= 18 && hour <= 21) ||
+                (hour ==  22  && minute <= 22))
+        {
+            light("ABENDS");
         }
         var b = performance.now();
         document.getElementById("demo2").innerHTML = b - a;
