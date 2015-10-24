@@ -106,6 +106,10 @@ Day[6] = ([7,7])
 Day[7] = ([7,8])
 Day[8] = ([7,9])
 Day[9] = ([7,10])
+Texts = {}
+Texts[0] = "Letterclock"
+Texts[1] = "Hackerspace"
+Texts[2] = "makehackmodify"
 
 def setCell(x, y, c=IWHITE):
     global Cells
@@ -136,6 +140,7 @@ def main():
     global gamestate
     pygame.init()
     pygame.joystick.init()
+    pygame.font.init()                                                                                                                                  
     # Initialize first joystick
     if pygame.joystick.get_count() > 0:
         stick = pygame.joystick.Joystick(0)
@@ -247,6 +252,10 @@ def main():
             # for key in Words:
             #     light(key)
             pygame.surfarray.blit_array(screen, Cells)
+            font_text = pygame.font.SysFont(None, 16)
+            text_text1 = Texts[minute%len(Texts)]
+            write_text1 = font_text.render(text_text1, True, (0,255,0))
+            screen.blit(write_text1, (17, 4))   
         else:
             pass
 
