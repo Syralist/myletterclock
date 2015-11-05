@@ -3,7 +3,7 @@ from datetime import datetime
 import numpy
 from pygame.locals import *
 from led.PixelEventHandler import *
-# from bmpfont import bmpfont
+from bmpfont import bmpfont
 
 """ A Letterclock for Pixel Display
 """
@@ -21,7 +21,7 @@ IGREEN = 65280
 IBLUE = 255
 IBLACK = 0
 
-# wing1font = bmpfont.BmpFont("bmpfont/wing1-5x5px-white.idx")
+wingfont = bmpfont.BmpFont("bmpfont/wing1-5x5px-green.idx")
 
 # detect if a serial/USB port is given as argument
 hasSerialPortParameter = ( sys.argv.__len__() > 1 )
@@ -41,6 +41,7 @@ else:
 size = ledDisplay.size()
 simDisplay = led.sim.SimDisplay(size)
 screen = pygame.Surface(size)
+textsurf = pygame.Surface((71, 14))
 gamestate = 1 #1=alive 0=dead
 
 Cells = numpy.zeros((90, 20), dtype=numpy.int32)
@@ -101,15 +102,16 @@ Day[1] = ([7,2])
 Day[2] = ([7,3])
 Day[3] = ([7,4])
 Day[4] = ([7,5])
-Day[5] = ([7,6])
-Day[6] = ([7,7])
-Day[7] = ([7,8])
-Day[8] = ([7,9])
-Day[9] = ([7,10])
+Day[5] = ([5,4])
+Day[6] = ([5,5])
+Day[7] = ([5,6])
+Day[8] = ([5,7])
+Day[9] = ([5,8])
 Texts = {}
 Texts[0] = "Letterclock"
 Texts[1] = "Hackerspace"
 Texts[2] = "makehackmodify"
+Texts[3] = "Computerboerse 2.0"
 
 def setCell(x, y, c=IWHITE):
     global Cells
@@ -252,10 +254,14 @@ def main():
             # for key in Words:
             #     light(key)
             pygame.surfarray.blit_array(screen, Cells)
-            font_text = pygame.font.SysFont(None, 16)
-            text_text1 = Texts[minute%len(Texts)]
-            write_text1 = font_text.render(text_text1, True, (0,255,0))
-            screen.blit(write_text1, (17, 4))   
+            # font_text = pygame.font.SysFont(None, 16)
+            # text_text1 = Texts[minute%len(Texts)]
+            # write_text1 = font_text.render(text_text1, True, (0,255,0))
+            # screen.blit(write_text1, (17, 4))   
+            textsurf.fill(IBLACK)
+            # wingfont.blit(Texts[minute%len(Texts)].upper(), screen, (22, 4))
+            wingfont.blit(Texts[minute%len(Texts)].upper(), textsurf)
+            screen.blit(textsurf, (18, 3))
         else:
             pass
 
