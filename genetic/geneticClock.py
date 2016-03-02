@@ -3,7 +3,20 @@ import re
 import random
 import math
 import copy
+import os
 from operator import itemgetter
+from collections import deque
+
+TimePatternsDEre = {
+    1 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(eins)(.*)")
+        ],
+    2 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(eins)(.*)")
+        ]
+    }
 
 TimePatternsDE = [
     u"(.*)(ein)(.+)(uhr)(.*)",
@@ -27,7 +40,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(zwei)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(zwei)(.*)",
     u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(zwei)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(zwei)(.*)",
     u"(.*)(ein)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(zwei)(.*)",
     u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -53,7 +66,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(drei)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(drei)(.*)",
     u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(drei)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(drei)(.*)",
     u"(.*)(zwei)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(drei)(.*)",
     u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -79,7 +92,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(vier)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(vier)(.*)",
     u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(vier)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(vier)(.*)",
     u"(.*)(drei)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(vier)(.*)",
     u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -105,7 +118,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(fünf)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(fünf)(.*)",
     u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(fünf)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(fünf)(.*)",
     u"(.*)(vier)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(fünf)(.*)",
     u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -131,7 +144,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(sechs)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(sechs)(.*)",
     u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(sechs)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(sechs)(.*)",
     u"(.*)(fünf)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(sechs)(.*)",
     u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -157,7 +170,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(sieben)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(sieben)(.*)",
     u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(sieben)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(sieben)(.*)",
     u"(.*)(sechs)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(sieben)(.*)",
     u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -183,7 +196,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(acht)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(acht)(.*)",
     u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(acht)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(acht)(.*)",
     u"(.*)(sieben)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(acht)(.*)",
     u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -209,7 +222,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(neun)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(neun)(.*)",
     u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(neun)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(neun)(.*)",
     u"(.*)(acht)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(neun)(.*)",
     u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -235,7 +248,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(zehn)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(zehn)(.*)",
     u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(zehn)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(zehn)(.*)",
     u"(.*)(neun)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(zehn)(.*)",
     u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -261,7 +274,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(elf)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(elf)(.*)",
     u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(elf)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(elf)(.*)",
     u"(.*)(zehn)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(elf)(.*)",
     u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -287,7 +300,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(zwölf)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(zwölf)(.*)",
     u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(zwölf)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(zwölf)(.*)",
     u"(.*)(elf)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(zwölf)(.*)",
     u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -313,7 +326,7 @@ TimePatternsDE = [
     u"(.*)(zwanzig)(.+)(vor)(.+)(eins)(.*)",
     u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(eins)(.*)",
     u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(drei)(.*)(viertel)(.+)(eins)(.*)",
+    u"(.*)(viertel)(.+)(vor)(.+)(eins)(.*)",
     u"(.*)(zwölf)(.+)(uhr)(.+)(fünfzig)(.*)",
     u"(.*)(zehn)(.+)(vor)(.+)(eins)(.*)",
     u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
@@ -373,6 +386,7 @@ Words = [
     u"vierzig",
     u"fünfzig",
     u"uhr",
+    u"und",
     u"punkt"]
 
 # print TimePatternsDE
@@ -387,7 +401,6 @@ RectClock12x12StartPattern = list(u"XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXX
 class GeneticClock():
     def __init__(self, StartPattern, Pop = 15):
         self.StartPattern = StartPattern
-        self.BestPattern = StartPattern
         self.LastPattern = StartPattern
         self.ThisPattern = StartPattern
         self.PatternLength = len(self.StartPattern)
@@ -399,6 +412,7 @@ class GeneticClock():
         for i in range(0, Pop):
             self.Population.append(list((StartPattern, 0)))
         self.LastPopulation = copy.deepcopy(self.Population)
+        self.BestPatterns = deque([],10)
 
     def Fitness(self, Pattern):
         numMatches = 0
@@ -421,7 +435,7 @@ class GeneticClock():
         Pat = copy.deepcopy(Pattern)
         rndWord = random.choice(Words)
         rndWord = list(rndWord)
-        rndPosition = random.randint(0, self.PatternLength-1-len(rndWord))
+        rndPosition = random.randint(0, self.PatternLength-len(rndWord))
         offset = 0
         for l in rndWord:
             if Pat[rndPosition + offset] == "|":
@@ -438,11 +452,15 @@ class GeneticClock():
         self.Population[-1][0] = copy.deepcopy(PatA1+PatB2)
         self.Population[-2][0] = copy.deepcopy(PatB1+PatA2)
 
-
     def PrintPopulation(self):
         for P in self.Population:
             print "".join(P[0])
             print P[1]
+
+    def PrintBestPattern(self):
+        for P in self.BestPatterns:
+            print "".join(P[0])
+            print P[1], float(P[1])/float(len(TimePatternsRe))
 
     def run(self):
         # while self.Generation < 10:
@@ -450,13 +468,14 @@ class GeneticClock():
             try:
                 self.Generation += 1
                 for i, P in enumerate(self.Population):
-                    if self.LastPopulation[i][1] < self.BestFitness or self.BestFitness == 0 or self.Generation%2 == 0:
+                    if self.LastPopulation[i][1] < self.BestFitness or self.BestFitness == 0 or self.Generation%10 == 0:
                         P[0] = self.InsertWord(self.LastPopulation[i][0])
                     else:
                         P[0] = copy.deepcopy(self.LastPopulation[i][0])
                     P[1] = self.Fitness(P[0])
                     if P[1] > self.BestFitness:
                         self.BestFitness = P[1]
+                        self.BestPatterns.appendleft(copy.deepcopy(P))
 
                 self.Population = sorted(self.Population, key=itemgetter(1), reverse=True)
                 self.CombinePattern(self.Population[0][0],self.Population[1][0])
@@ -472,12 +491,15 @@ class GeneticClock():
                 if self.Generation%100 == 0:
                 # if True:
                     print "***" + str(self.Generation) + "***"
-                    self.PrintPopulation()
+                    # self.PrintPopulation()
+                    self.PrintBestPattern()
+                    print self.BestFitness
             except KeyboardInterrupt:
                 print "Interrupted"
-                self.PrintPopulation()
-                print self.Generation
-                print self.BestFitness
+                print "After", self.Generation, "Generations, these are the Best Patterns:"
+                self.PrintBestPattern()
+                # self.PrintPopulation()
+                # print self.BestFitness
                 return
         
         
@@ -485,3 +507,7 @@ class GeneticClock():
 random.seed()
 GC = GeneticClock(RectClock12x12StartPattern)
 GC.run()
+
+
+
+
