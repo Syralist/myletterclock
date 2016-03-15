@@ -15,6 +15,248 @@ TimePatternsDEre = {
     2 : [
         re.compile(u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)"),
         re.compile(u"(.*)(fünf)(.+)(nach)(.+)(eins)(.*)")
+        ],
+    3 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(eins)(.*)")
+        ],
+    4 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(eins)(.*)")
+        ],
+    5 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(eins)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(zwei)(.*)")
+        ],
+    6 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(zwei)(.*)")
+        ],
+    7 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(zwei)(.*)")
+        ],
+    8 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(zwei)(.*)")
+        ],
+    9 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(zwei)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(zwei)(.*)")
+        ],
+    10 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(zwei)(.*)")
+        ],
+    11 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(zwei)(.*)")
+        ],
+    12 : [
+        re.compile(u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(zwei)(.*)")
+        ],
+    13 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(zwei)(.*)")
+        ],
+    14 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(zwei)(.*)")
+        ],
+    15 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(zwei)(.*)")
+        ],
+    16 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(zwei)(.*)")
+        ],
+    17 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(zwei)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(drei)(.*)")
+        ],
+    18 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(drei)(.*)")
+        ],
+    19 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(drei)(.*)")
+        ],
+    20 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(drei)(.*)")
+        ],
+    21 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(drei)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(drei)(.*)")
+        ],
+    22 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(drei)(.*)")
+        ],
+    23 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(drei)(.*)")
+        ],
+    24 : [
+        re.compile(u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(drei)(.*)")
+        ],
+    25 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(drei)(.*)")
+        ],
+    26 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(drei)(.*)")
+        ],
+    27 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(drei)(.*)")
+        ],
+    28 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(drei)(.*)")
+        ],
+    29 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(drei)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(vier)(.*)")
+        ],
+    30 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(vier)(.*)")
+        ],
+    31 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(vier)(.*)")
+        ],
+    32 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(vier)(.*)")
+        ],
+    33 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(vier)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(vier)(.*)")
+        ],
+    34 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(vier)(.*)")
+        ],
+    35 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(vier)(.*)")
+        ],
+    36 : [
+        re.compile(u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(vier)(.*)")
+        ],
+    37 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(vier)(.*)")
+        ],
+    38 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(vier)(.*)")
+        ],
+    39 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(vier)(.*)")
+        ],
+    40 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(vier)(.*)")
+        ],
+    41 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(vier)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(fünf)(.*)")
+        ],
+    42 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(fünf)(.*)")
+        ],
+    43 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(fünf)(.*)")
+        ],
+    44 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(fünf)(.*)")
+        ],
+    45 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(fünf)(.*)")
+        ],
+    46 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(fünf)(.*)")
+        ],
+    47 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(fünf)(.*)")
+        ],
+    48 : [
+        re.compile(u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(fünf)(.*)")
+        ],
+    49 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(fünf)(.*)")
+        ],
+    50 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(fünf)(.*)")
+        ],
+    51 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(fünf)(.*)")
+        ],
+    52 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(fünf)(.*)")
+        ],
+    53 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(sechs)(.*)")
+        ],
+    54 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(sechs)(.*)")
+        ],
+    55 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(sechs)(.*)")
+        ],
+    56 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(sechs)(.*)")
+        ],
+    57 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(sechs)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(sechs)(.*)")
+        ],
+    58 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(sechs)(.*)")
+        ],
+    59 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(sechs)(.*)")
+        ],
+    60 : [
+        re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(sechs)(.*)")
         ]
     }
 
