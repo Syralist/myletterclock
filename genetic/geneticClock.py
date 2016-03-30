@@ -257,6 +257,356 @@ TimePatternsDEre = {
     60 : [
         re.compile(u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
         re.compile(u"(.*)(fünf)(.+)(vor)(.+)(sechs)(.*)")
+        ],
+    61 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(sechs)(.*)")
+        ],
+    62 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(sechs)(.*)")
+        ],
+    63 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(sechs)(.*)")
+        ],
+    64 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(sechs)(.*)")
+        ],
+    65 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(sechs)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(sieben)(.*)")
+        ],
+    66 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(sieben)(.*)")
+        ],
+    67 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(sieben)(.*)")
+        ],
+    68 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(sieben)(.*)")
+        ],
+    69 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(sieben)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(sieben)(.*)")
+        ],
+    70 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(sieben)(.*)")
+        ],
+    71 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(sieben)(.*)")
+        ],
+    72 : [
+        re.compile(u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(sieben)(.*)")
+        ],
+    73 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(sieben)(.*)")
+        ],
+    74 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(sieben)(.*)")
+        ],
+    75 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(sieben)(.*)")
+        ],
+    76 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(sieben)(.*)")
+        ],
+    77 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(sieben)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(acht)(.*)")
+        ],
+    78 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(acht)(.*)")
+        ],
+    79 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(acht)(.*)")
+        ],
+    80 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(acht)(.*)")
+        ],
+    81 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(acht)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(acht)(.*)")
+        ],
+    82 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(acht)(.*)")
+        ],
+    83 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(acht)(.*)")
+        ],
+    84 : [
+        re.compile(u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(acht)(.*)")
+        ],
+    85 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(acht)(.*)")
+        ],
+    86 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(acht)(.*)")
+        ],
+    87 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(acht)(.*)")
+        ],
+    88 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(acht)(.*)")
+        ],
+    89 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(acht)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(neun)(.*)")
+        ],
+    90 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(neun)(.*)")
+        ],
+    91 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(neun)(.*)")
+        ],
+    92 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(neun)(.*)")
+        ],
+    93 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(neun)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(neun)(.*)")
+        ],
+    94 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(neun)(.*)")
+        ],
+    95 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(neun)(.*)")
+        ],
+    96 : [
+        re.compile(u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(neun)(.*)")
+        ],
+    97 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(neun)(.*)")
+        ],
+    98 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(neun)(.*)")
+        ],
+    99 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(neun)(.*)")
+        ],
+    100 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(neun)(.*)")
+        ],
+    101 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(neun)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(zehn)(.*)")
+        ],
+    102 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(zehn)(.*)")
+        ],
+    103 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(zehn)(.*)")
+        ],
+    104 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(zehn)(.*)")
+        ],
+    105 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(zehn)(.*)")
+        ],
+    106 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(zehn)(.*)")
+        ],
+    107 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(zehn)(.*)")
+        ],
+    108 : [
+        re.compile(u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(zehn)(.*)")
+        ],
+    109 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(zehn)(.*)")
+        ],
+    110 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(zehn)(.*)")
+        ],
+    111 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(zehn)(.*)")
+        ],
+    112 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(zehn)(.*)")
+        ],
+    113 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(elf)(.*)")
+        ],
+    114 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(elf)(.*)")
+        ],
+    115 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(elf)(.*)")
+        ],
+    116 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(elf)(.*)")
+        ],
+    117 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(elf)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(elf)(.*)")
+        ],
+    118 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(elf)(.*)")
+        ],
+    119 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(elf)(.*)")
+        ],
+    120 : [
+        re.compile(u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(elf)(.*)")
+        ],
+    121 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(elf)(.*)")
+        ],
+    122 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(elf)(.*)")
+        ],
+    123 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(elf)(.*)")
+        ],
+    124 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(elf)(.*)")
+        ],
+    125 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(elf)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(zwölf)(.*)")
+        ],
+    126 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(zwölf)(.*)")
+        ],
+    127 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(zwölf)(.*)")
+        ],
+    128 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(zwölf)(.*)")
+        ],
+    129 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(zwölf)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(zwölf)(.*)")
+        ],
+    130 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(zwölf)(.*)")
+        ],
+    131 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(zwölf)(.*)")
+        ],
+    132 : [
+        re.compile(u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(zwölf)(.*)")
+        ],
+    133 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.*)"),
+        re.compile(u"(.*)(punkt)(.+)(zwölf)(.*)")
+        ],
+    134 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(zwölf)(.*)")
+        ],
+    135 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(zehn)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(zwölf)(.*)")
+        ],
+    136 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(nach)(.+)(zwölf)(.*)")
+        ],
+    137 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(zwanzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(nach)(.+)(zwölf)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(eins)(.*)")
+        ],
+    138 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(eins)(.*)")
+        ],
+    139 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(dreissig)(.*)"),
+        re.compile(u"(.*)(halb)(.+)(eins)(.*)")
+        ],
+    140 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(eins)(.*)")
+        ],
+    141 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(vierzig)(.*)"),
+        re.compile(u"(.*)(zwanzig)(.+)(vor)(.+)(eins)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(eins)(.*)")
+        ],
+    142 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)"),
+        re.compile(u"(.*)(viertel)(.+)(vor)(.+)(eins)(.*)")
+        ],
+    143 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(fünfzig)(.*)"),
+        re.compile(u"(.*)(zehn)(.+)(vor)(.+)(eins)(.*)")
+        ],
+    144 : [
+        re.compile(u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)"),
+        re.compile(u"(.*)(fünf)(.+)(vor)(.+)(eins)(.*)")
         ]
     }
 
@@ -649,6 +999,7 @@ class GeneticClock():
         self.PatternBreaks = self.StartPattern.count("|")
         self.PatternLetters = self.PatternLength - self.PatternBreaks
         self.BestFitness = 0
+        self.BestFitness2 = 0
         self.Generation = 0
         self.Population = []
         for i in range(0, Pop):
@@ -663,6 +1014,21 @@ class GeneticClock():
             if r.match(strPattern):
                 numMatches = numMatches + 1
         return numMatches
+
+    def Fitness2(self, Pattern):
+        numMatches = 0
+        numTimes = 0
+        timeMatched = False
+        strPattern = "".join(Pattern)
+        for i, r in TimePatternsDEre.iteritems():
+            timeMatched = False
+            for t in r:
+                if t.match(strPattern):
+                    numMatches = numMatches + 1
+                    if not timeMatched:
+                        timeMatched = True
+                        numTimes = numTimes + 1
+        return numMatches, numTimes
 
     def Mutate(self, rate = 0.10):
         num = int(math.floor(self.PatternLetters * rate))
@@ -701,8 +1067,11 @@ class GeneticClock():
 
     def PrintBestPattern(self):
         for P in self.BestPatterns:
+            num, times = self.Fitness2(P[0])
             print "".join(P[0])
-            print P[1], float(P[1])/float(len(TimePatternsRe))
+            # print P[1], float(P[1])/float(len(TimePatternsDEre))
+            print times, float(times)/float(len(TimePatternsDEre))
+            print num, float(num)/float(len(TimePatternsRe))
 
     def run(self):
         # while self.Generation < 10:
@@ -714,17 +1083,18 @@ class GeneticClock():
                         P[0] = self.InsertWord(self.LastPopulation[i][0])
                     else:
                         P[0] = copy.deepcopy(self.LastPopulation[i][0])
-                    P[1] = self.Fitness(P[0])
+                    dummy, P[1] = self.Fitness2(P[0])
                     if P[1] > self.BestFitness:
                         self.BestFitness = P[1]
                         self.BestPatterns.appendleft(copy.deepcopy(P))
 
                 self.Population = sorted(self.Population, key=itemgetter(1), reverse=True)
                 self.CombinePattern(self.Population[0][0],self.Population[1][0])
-                self.Population[-2][1] = self.Fitness(self.Population[-2][0])
+                # self.Population[-2][1] = self.Fitness(self.Population[-2][0])
+                dummy, self.Population[-2][1] = self.Fitness2(self.Population[-2][0])
                 if self.Population[-2][1] > self.BestFitness:
                     self.BestFitness = self.Population[-2][1]
-                self.Population[-1][1] = self.Fitness(self.Population[-1][0])
+                dummy, self.Population[-1][1] = self.Fitness2(self.Population[-1][0])
                 if self.Population[-1][1] > self.BestFitness:
                     self.BestFitness = self.Population[-1][1]
                 self.Population = sorted(self.Population, key=itemgetter(1), reverse=True)
