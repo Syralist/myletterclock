@@ -6,6 +6,11 @@ import copy
 import os
 from operator import itemgetter
 from collections import deque
+import wx
+# import wx.richtext as rt
+import threading
+
+# print wx.version()
 
 TimePatternsDEre = {
     1 : [
@@ -1002,10 +1007,14 @@ class GeneticClock():
         self.BestFitness2 = 0
         self.Generation = 0
         self.Population = []
+        self.Running = False
         for i in range(0, Pop):
             self.Population.append(list((StartPattern, 0)))
         self.LastPopulation = copy.deepcopy(self.Population)
         self.BestPatterns = deque([],10)
+
+    def Test(self):
+        print "test"
 
     def Fitness(self, Pattern):
         numMatches = 0
@@ -1075,7 +1084,7 @@ class GeneticClock():
 
     def run(self):
         # while self.Generation < 10:
-        while True:
+        while self.Running:
             try:
                 self.Generation += 1
                 for i, P in enumerate(self.Population):
@@ -1084,6 +1093,8 @@ class GeneticClock():
                     else:
                         P[0] = copy.deepcopy(self.LastPopulation[i][0])
                     dummy, P[1] = self.Fitness2(P[0])
+                    if P[1] == len(TimePatternsDEre):
+                        P[1] = copy.deepcopy(dummy)
                     if P[1] > self.BestFitness:
                         self.BestFitness = P[1]
                         self.BestPatterns.appendleft(copy.deepcopy(P))
@@ -1115,11 +1126,55 @@ class GeneticClock():
                 return
         
         
+class MyFrame(wx.Frame):
+    def __init__(self, parent, title):
+        wx.Frame.__init__(self, parent, title=title, size=(300,200))
+        self.timer = wx.Timer(self, 1)
+        self.sizer1 = wx.BoxSizer(wx.HORIZONTAL)
+        self.GenLabel = wx.StaticText(self, -1, "Aktuelle Generation: ")
+        self.GenCounter = wx.StaticText(self, -1, '0')
+        self.FitLabel = wx.StaticText(self, -1, "Beste Fitness: ")
+        self.FitCounter = wx.StaticText(self, -1, '0')
+        self.sizer1.Add(self.GenLabel, 0, wx.ALL|wx.EXPAND)
+        self.sizer1.Add(self.GenCounter, 1, wx.ALL|wx.GROW)
+        self.sizer1.Add(self.FitLabel, 0, wx.ALL|wx.EXPAND)
+        self.sizer1.Add(self.FitCounter, 1, wx.ALL|wx.GROW)
+        self.sizer2 = wx.BoxSizer(wx.VERTICAL)
+        self.PatternText = wx.TextCtrl(self, style=wx.TE_MULTILINE)
+        self.PatternText.SetFont(wx.Font(10, wx.MODERN, wx.NORMAL, wx.NORMAL, False, u'Source Code Pro'))
+        # self.PatternText = rt.RichTextCtrl(self)
+        self.sizer2.Add(self.PatternText, 1, wx.ALL|wx.EXPAND)
+        self.sizer3 = wx.BoxSizer(wx.HORIZONTAL)
+        self.StartButton = wx.ToggleButton(self,-1,"Running")
+        self.sizer3.Add(self.StartButton, 0, wx.ALL|wx.EXPAND)
+        self.mainsizer = wx.BoxSizer(wx.VERTICAL)
+        self.mainsizer.Add(self.sizer1, 0, wx.ALL)
+        self.mainsizer.Add(self.sizer2, 1, wx.ALL|wx.EXPAND)
+        self.mainsizer.Add(self.sizer3, 0, wx.ALL)
+        self.SetSizer(self.mainsizer)
+        # self.mainsizer.Fit(self)
+        self.timer.Start(100)
+        self.Bind(wx.EVT_TIMER, self.OnTimer, id=1)
+        self.SetSize(wx.Size(350,300))
+        self.Show(True)
+        # GC.Test()
+    def OnTimer(self, event):
+        if GC.Running:
+            self.GenCounter.SetLabel(str(GC.Generation))
+            self.FitCounter.SetLabel(str(GC.BestFitness))
+            self.PatternText.Clear()
+            self.PatternText.AppendText("".join(GC.BestPatterns[0][0]).replace("|","\n"))
+
 
 random.seed()
 GC = GeneticClock(RectClock12x12StartPattern)
-GC.run()
+GenThread = threading.Thread(target=GC.run)
+GenThread.daemon = True
+GenThread.start()
+# GC.run()
 
-
+app = wx.App(False)
+frame = MyFrame(None, 'Genetic Clock')
+app.MainLoop()
 
 
