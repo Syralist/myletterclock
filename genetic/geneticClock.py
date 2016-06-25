@@ -1084,46 +1084,47 @@ class GeneticClock():
 
     def run(self):
         # while self.Generation < 10:
-        while self.Running:
-            try:
-                self.Generation += 1
-                for i, P in enumerate(self.Population):
-                    if self.LastPopulation[i][1] < self.BestFitness or self.BestFitness == 0 or self.Generation%10 == 0:
-                        P[0] = self.InsertWord(self.LastPopulation[i][0])
-                    else:
-                        P[0] = copy.deepcopy(self.LastPopulation[i][0])
-                    dummy, P[1] = self.Fitness2(P[0])
-                    if P[1] == len(TimePatternsDEre):
-                        P[1] = copy.deepcopy(dummy)
-                    if P[1] > self.BestFitness:
-                        self.BestFitness = P[1]
-                        self.BestPatterns.appendleft(copy.deepcopy(P))
+        while True:
+            if self.Running:
+                try:
+                    self.Generation += 1
+                    for i, P in enumerate(self.Population):
+                        if self.LastPopulation[i][1] < self.BestFitness or self.BestFitness == 0 or self.Generation%10 == 0:
+                            P[0] = self.InsertWord(self.LastPopulation[i][0])
+                        else:
+                            P[0] = copy.deepcopy(self.LastPopulation[i][0])
+                        dummy, P[1] = self.Fitness2(P[0])
+                        if P[1] == len(TimePatternsDEre):
+                            P[1] = copy.deepcopy(dummy)
+                        if P[1] > self.BestFitness:
+                            self.BestFitness = P[1]
+                            self.BestPatterns.appendleft(copy.deepcopy(P))
 
-                self.Population = sorted(self.Population, key=itemgetter(1), reverse=True)
-                self.CombinePattern(self.Population[0][0],self.Population[1][0])
-                # self.Population[-2][1] = self.Fitness(self.Population[-2][0])
-                dummy, self.Population[-2][1] = self.Fitness2(self.Population[-2][0])
-                if self.Population[-2][1] > self.BestFitness:
-                    self.BestFitness = self.Population[-2][1]
-                dummy, self.Population[-1][1] = self.Fitness2(self.Population[-1][0])
-                if self.Population[-1][1] > self.BestFitness:
-                    self.BestFitness = self.Population[-1][1]
-                self.Population = sorted(self.Population, key=itemgetter(1), reverse=True)
+                    self.Population = sorted(self.Population, key=itemgetter(1), reverse=True)
+                    self.CombinePattern(self.Population[0][0],self.Population[1][0])
+                    # self.Population[-2][1] = self.Fitness(self.Population[-2][0])
+                    dummy, self.Population[-2][1] = self.Fitness2(self.Population[-2][0])
+                    if self.Population[-2][1] > self.BestFitness:
+                        self.BestFitness = self.Population[-2][1]
+                    dummy, self.Population[-1][1] = self.Fitness2(self.Population[-1][0])
+                    if self.Population[-1][1] > self.BestFitness:
+                        self.BestFitness = self.Population[-1][1]
+                    self.Population = sorted(self.Population, key=itemgetter(1), reverse=True)
 
-                self.LastPopulation = copy.deepcopy(self.Population)
-                if self.Generation%100 == 0:
-                # if True:
-                    print "***" + str(self.Generation) + "***"
-                    # self.PrintPopulation()
+                    self.LastPopulation = copy.deepcopy(self.Population)
+                    if self.Generation%100 == 0:
+                    # if True:
+                        print "***" + str(self.Generation) + "***"
+                        # self.PrintPopulation()
+                        self.PrintBestPattern()
+                        print self.BestFitness
+                except KeyboardInterrupt:
+                    print "Interrupted"
+                    print "After", self.Generation, "Generations, these are the Best Patterns:"
                     self.PrintBestPattern()
-                    print self.BestFitness
-            except KeyboardInterrupt:
-                print "Interrupted"
-                print "After", self.Generation, "Generations, these are the Best Patterns:"
-                self.PrintBestPattern()
-                # self.PrintPopulation()
-                # print self.BestFitness
-                return
+                    # self.PrintPopulation()
+                    # print self.BestFitness
+                    return
         
         
 class MyFrame(wx.Frame):
@@ -1155,6 +1156,7 @@ class MyFrame(wx.Frame):
         # self.mainsizer.Fit(self)
         self.timer.Start(100)
         self.Bind(wx.EVT_TIMER, self.OnTimer, id=1)
+        self.Bind(wx.EVT_TOGGLEBUTTON, self.OnButton, self.StartButton)
         self.SetSize(wx.Size(350,300))
         self.Show(True)
         # GC.Test()
@@ -1163,7 +1165,10 @@ class MyFrame(wx.Frame):
             self.GenCounter.SetLabel(str(GC.Generation))
             self.FitCounter.SetLabel(str(GC.BestFitness))
             self.PatternText.Clear()
+            # print GC.BestPatterns
             self.PatternText.AppendText("".join(GC.BestPatterns[0][0]).replace("|","\n"))
+    def OnButton(self, event):
+        GC.Running = self.StartButton.GetValue()
 
 
 random.seed()
