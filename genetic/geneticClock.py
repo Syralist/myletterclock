@@ -7,7 +7,7 @@ import os
 from operator import itemgetter
 from collections import deque
 import wx
-# import wx.richtext as rt
+import wx.richtext as rt
 import threading
 
 # print wx.version()
@@ -615,320 +615,8 @@ TimePatternsDEre = {
         ]
     }
 
-TimePatternsDE = [
-    u"(.*)(ein)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(eins)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(eins)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(eins)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(eins)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(eins)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(zwei)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(zwei)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(zwei)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(zwei)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(zwei)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(zwei)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(zwei)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(zwei)(.*)",
-    u"(.*)(ein)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(zwei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(zwei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(zwei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(zwei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(zwei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(zwei)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(drei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(drei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(drei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(drei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(drei)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(drei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(drei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(drei)(.*)",
-    u"(.*)(zwei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(drei)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(drei)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(drei)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(drei)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(drei)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(drei)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(vier)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(vier)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(vier)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(vier)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(vier)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(vier)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(vier)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(vier)(.*)",
-    u"(.*)(drei)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(vier)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(vier)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(vier)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(vier)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(vier)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(vier)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(fünf)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(fünf)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(fünf)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(fünf)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(fünf)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(fünf)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(fünf)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(fünf)(.*)",
-    u"(.*)(vier)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(fünf)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(sechs)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(sechs)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(sechs)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(sechs)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(sechs)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(sechs)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(sechs)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(sechs)(.*)",
-    u"(.*)(fünf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(sechs)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(sechs)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(sechs)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(sechs)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(sechs)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(sechs)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(sieben)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(sieben)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(sieben)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(sieben)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(sieben)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(sieben)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(sieben)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(sieben)(.*)",
-    u"(.*)(sechs)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(sieben)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(sieben)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(sieben)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(sieben)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(sieben)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(sieben)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(acht)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(acht)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(acht)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(acht)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(acht)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(acht)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(acht)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(acht)(.*)",
-    u"(.*)(sieben)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(acht)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(acht)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(acht)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(acht)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(acht)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(acht)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(neun)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(neun)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(neun)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(neun)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(neun)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(neun)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(neun)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(neun)(.*)",
-    u"(.*)(acht)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(neun)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(neun)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(neun)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(neun)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(neun)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(neun)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(zehn)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(zehn)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(zehn)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(zehn)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(zehn)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(zehn)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(zehn)(.*)",
-    u"(.*)(neun)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(elf)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(elf)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(elf)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(elf)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(elf)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(elf)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(elf)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(elf)(.*)",
-    u"(.*)(zehn)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(elf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(elf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(elf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(elf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(elf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(elf)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(zwölf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(zwölf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(zwölf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(zwölf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(zwölf)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(zwölf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(zwölf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(zwölf)(.*)",
-    u"(.*)(elf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(zwölf)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.*)",
-    u"(.*)(punkt)(.+)(zwölf)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(zwölf)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(zehn)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(zwölf)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(zehn)(.*)",
-    u"(.*)(viertel)(.+)(nach)(.+)(zwölf)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(zwanzig)(.*)",
-    u"(.*)(zwanzig)(.+)(nach)(.+)(zwölf)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(halb)(.+)(eins)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(zwanzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(halb)(.+)(eins)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(dreissig)(.*)",
-    u"(.*)(halb)(.+)(eins)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(dreissig)(.*)",
-    u"(.*)(fünf)(.+)(nach)(.+)(halb)(.+)(eins)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(vierzig)(.*)",
-    u"(.*)(zwanzig)(.+)(vor)(.+)(eins)(.*)",
-    u"(.*)(zehn)(.+)(nach)(.+)(halb)(.+)(eins)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(vierzig)(.*)",
-    u"(.*)(viertel)(.+)(vor)(.+)(eins)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(fünfzig)(.*)",
-    u"(.*)(zehn)(.+)(vor)(.+)(eins)(.*)",
-    u"(.*)(zwölf)(.+)(uhr)(.+)(fünf)(.*)(und)(.*)(fünfzig)(.*)",
-    u"(.*)(fünf)(.+)(vor)(.+)(eins)(.*)"
-    ]
+totalTimes = len(TimePatternsDEre)
+totalVariants = sum(len(v) for v in TimePatternsDEre.itervalues())
 
 Letters = [
     u"a",
@@ -986,14 +674,61 @@ Words = [
     u"und",
     u"punkt"]
 
-# print TimePatternsDE
-TimePatternsRe = []
-for p in TimePatternsDE:
-    TimePatternsRe.append(re.compile(p))
-
-# print TimePatternsRe
-
-RectClock12x12StartPattern = list(u"XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX|XXXXXXXXXXXX")
+RectClock12x12StartPattern = list(u"|".join([
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXXX"]))
+DiamClock12x13StartPattern = list(u"|".join([
+    u"XXXXXX",
+    u"XXXXXXX",
+    u"XXXXXXXX",
+    u"XXXXXXXXX",
+    u"XXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXX",
+    u"XXXXXXXXX",
+    u"XXXXXXXX",
+    u"XXXXXXX",
+    u"XXXXXX"]))
+HourClock12x13StartPattern = list(u"|".join([
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXX",
+    u"XXXXXXXXX",
+    u"XXXXXXXX",
+    u"XXXXXXX",
+    u"XXXXXX",
+    u"XXXXXXX",
+    u"XXXXXXXX",
+    u"XXXXXXXXX",
+    u"XXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXXXX"]))
+WaveClock12x13StartPattern = list(u"|".join([
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXX",
+    u"XXXXXXXXXXX",
+    u"XXXXXXXXXXXX"]))
 
 class GeneticClock():
     def __init__(self, StartPattern, Pop = 15):
@@ -1015,14 +750,6 @@ class GeneticClock():
 
     def Test(self):
         print "test"
-
-    def Fitness(self, Pattern):
-        numMatches = 0
-        strPattern = "".join(Pattern)
-        for r in TimePatternsRe:
-            if r.match(strPattern):
-                numMatches = numMatches + 1
-        return numMatches
 
     def Fitness2(self, Pattern):
         numMatches = 0
@@ -1054,11 +781,14 @@ class GeneticClock():
         rndWord = list(rndWord)
         rndPosition = random.randint(0, self.PatternLength-len(rndWord))
         offset = 0
-        for l in rndWord:
-            if Pat[rndPosition + offset] == "|":
+        try:
+            for l in rndWord:
+                if Pat[rndPosition + offset] == "|":
+                    offset += 1
+                Pat[rndPosition + offset] = l
                 offset += 1
-            Pat[rndPosition + offset] = l
-            offset += 1
+        except IndexError:
+            print rndPosition, offset
         return Pat
 
     def CombinePattern(self, PatternA, PatternB):
@@ -1078,9 +808,9 @@ class GeneticClock():
         for P in self.BestPatterns:
             num, times = self.Fitness2(P[0])
             print "".join(P[0])
-            # print P[1], float(P[1])/float(len(TimePatternsDEre))
-            print times, float(times)/float(len(TimePatternsDEre))
-            print num, float(num)/float(len(TimePatternsRe))
+            print times, float(times)/float(totalTimes)
+            # print num, float(num)/float(len(TimePatternsRe))
+            print num, float(num)/float(totalVariants)
 
     def run(self):
         # while self.Generation < 10:
@@ -1102,7 +832,6 @@ class GeneticClock():
 
                     self.Population = sorted(self.Population, key=itemgetter(1), reverse=True)
                     self.CombinePattern(self.Population[0][0],self.Population[1][0])
-                    # self.Population[-2][1] = self.Fitness(self.Population[-2][0])
                     dummy, self.Population[-2][1] = self.Fitness2(self.Population[-2][0])
                     if self.Population[-2][1] > self.BestFitness:
                         self.BestFitness = self.Population[-2][1]
@@ -1129,24 +858,23 @@ class GeneticClock():
         
 class MyFrame(wx.Frame):
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(300,200))
+        wx.Frame.__init__(self, parent, title=title, size=(300,400))
         self.timer = wx.Timer(self, 1)
         self.sizer1 = wx.BoxSizer(wx.HORIZONTAL)
         self.GenLabel = wx.StaticText(self, -1, "Aktuelle Generation: ")
-        self.GenCounter = wx.StaticText(self, -1, '0')
+        self.GenCounter = wx.StaticText(self, -1, '0000')
         self.FitLabel = wx.StaticText(self, -1, "Beste Fitness: ")
-        self.FitCounter = wx.StaticText(self, -1, '0')
+        self.FitCounter = wx.StaticText(self, -1, '000')
         self.sizer1.Add(self.GenLabel, 0, wx.ALL|wx.EXPAND)
         self.sizer1.Add(self.GenCounter, 1, wx.ALL|wx.GROW)
         self.sizer1.Add(self.FitLabel, 0, wx.ALL|wx.EXPAND)
         self.sizer1.Add(self.FitCounter, 1, wx.ALL|wx.GROW)
-        self.sizer2 = wx.BoxSizer(wx.VERTICAL)
-        self.PatternText = wx.TextCtrl(self, style=wx.TE_MULTILINE)
+        self.sizer2 = wx.BoxSizer(wx.HORIZONTAL)
+        self.PatternText = rt.RichTextCtrl(self)
         self.PatternText.SetFont(wx.Font(10, wx.MODERN, wx.NORMAL, wx.NORMAL, False, u'Source Code Pro'))
-        # self.PatternText = rt.RichTextCtrl(self)
         self.sizer2.Add(self.PatternText, 1, wx.ALL|wx.EXPAND)
         self.sizer3 = wx.BoxSizer(wx.HORIZONTAL)
-        self.StartButton = wx.ToggleButton(self,-1,"Running")
+        self.StartButton = wx.ToggleButton(self,-1,"Stopped")
         self.sizer3.Add(self.StartButton, 0, wx.ALL|wx.EXPAND)
         self.mainsizer = wx.BoxSizer(wx.VERTICAL)
         self.mainsizer.Add(self.sizer1, 0, wx.ALL)
@@ -1157,7 +885,7 @@ class MyFrame(wx.Frame):
         self.timer.Start(100)
         self.Bind(wx.EVT_TIMER, self.OnTimer, id=1)
         self.Bind(wx.EVT_TOGGLEBUTTON, self.OnButton, self.StartButton)
-        self.SetSize(wx.Size(350,300))
+        self.SetSize(wx.Size(350,400))
         self.Show(True)
         # GC.Test()
     def OnTimer(self, event):
@@ -1166,13 +894,22 @@ class MyFrame(wx.Frame):
             self.FitCounter.SetLabel(str(GC.BestFitness))
             self.PatternText.Clear()
             # print GC.BestPatterns
-            self.PatternText.AppendText("".join(GC.BestPatterns[0][0]).replace("|","\n"))
+            self.PatternText.BeginAlignment(wx.TEXT_ALIGNMENT_CENTER)
+            # self.PatternText.AppendText("".join(GC.BestPatterns[0][0]).replace("|","\n"))
+            self.PatternText.WriteText("".join(GC.BestPatterns[0][0]).replace("|","\n"))
     def OnButton(self, event):
         GC.Running = self.StartButton.GetValue()
+        if GC.Running:
+            self.StartButton.SetLabel("Running")
+        else:
+            self.StartButton.SetLabel("Paused")
 
 
 random.seed()
-GC = GeneticClock(RectClock12x12StartPattern)
+# GC = GeneticClock(RectClock12x12StartPattern)
+# GC = GeneticClock(DiamClock12x13StartPattern )
+# GC = GeneticClock(HourClock12x13StartPattern )
+GC = GeneticClock(WaveClock12x13StartPattern )
 GenThread = threading.Thread(target=GC.run)
 GenThread.daemon = True
 GenThread.start()
