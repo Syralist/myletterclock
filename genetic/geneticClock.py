@@ -687,6 +687,23 @@ RectClock12x12StartPattern = list(u"|".join([
     u"XXXXXXXXXXXX",
     u"XXXXXXXXXXXX",
     u"XXXXXXXXXXXX"]))
+RectClock16x16StartPattern = list(u"|".join([
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX",
+    u"XXXXXXXXXXXXXXXX"]))
 DiamClock12x13StartPattern = list(u"|".join([
     u"XXXXXX",
     u"XXXXXXX",
@@ -907,13 +924,17 @@ class MyFrame(wx.Frame):
 
 random.seed()
 # GC = GeneticClock(RectClock12x12StartPattern)
+GC = GeneticClock(RectClock16x16StartPattern)
 # GC = GeneticClock(DiamClock12x13StartPattern )
 # GC = GeneticClock(HourClock12x13StartPattern )
-GC = GeneticClock(WaveClock12x13StartPattern )
+# GC = GeneticClock(WaveClock12x13StartPattern )
 GenThread = threading.Thread(target=GC.run)
 GenThread.daemon = True
 GenThread.start()
 # GC.run()
+
+print "times: ", totalTimes
+print "variants: ", totalVariants
 
 app = wx.App(False)
 frame = MyFrame(None, 'Genetic Clock')
