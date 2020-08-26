@@ -17,6 +17,8 @@ public:
 
     WordclockLightOutput() : PollingComponent(1000) {}
     CRGB currentColor;
+    CRGB dayColor;
+    CRGB monthColor;
     int test = 0;
 
     void setup() override
@@ -46,6 +48,10 @@ public:
         currentColor.red = red*255.0;
         currentColor.green = green*255.0;
         currentColor.blue = blue*255.0;
+        CHSV complementary = rgb2hsv_approximate(currentColor);
+        complementary.hue += 128;
+        hsv2rgb_rainbow(complementary, dayColor);
+        hsv2rgb_rainbow(complementary, monthColor);
         // Write red, green and blue to HW
         // ...
     }
@@ -53,17 +59,26 @@ public:
     // void write_time(int Hour, int Minute)
     void update() override
     {
-        ESP_LOGD("Wordclock", "update aufgerufen");
         auto time = HA_time->now();
-        int Hour, Minute, Day, Month;
+        int Hour, Minute, MinuteMod5, Day, Month;
         Hour = time.hour;
         Minute = time.minute;
+        MinuteMod5 = time.minute % 5;
         Day = time.day_of_month;
         Month = time.month;
 
-        for (int i = 0; i < NUM_LEDS; i++)
+        ESP_LOGD("Wordclock", "update: H:%d M:%d M5:%d D:%d M:%d", Hour, Minute, MinuteMod5, Day, Month);
+
+        // for (int i = 0; i <= NUM_LEDS; i++)
+        // {
+        //     leds[i] = CRGB::Black;
+        // }
+        for(int x = 0; x < kMatrixHeight; x++)
         {
-            leds[i] = CRGB::Black;
+            for(int y = 0; y < kMatrixWidth; y++)
+            {
+                leds[XYsafe(x, y)] = CRGB::Black;
+            }
         }
 
         switch (Day)
@@ -227,6 +242,171 @@ public:
             break;
         default:
             break;
+        }
+
+        es();
+
+        if ((MinuteMod5 == 1 || MinuteMod5 == 2) && (Minute != 0))
+        {
+            war();
+        }
+        else
+        {
+            ist();
+        }
+
+        if(MinuteMod5 == 3 || MinuteMod5 == 4)
+        {
+            gleich();
+        }
+
+        if(Minute == 0)
+        {
+            genau();
+        }
+
+        if((MinuteMod5 == 0 || MinuteMod5 == 1 || MinuteMod5 == 2) && (Minute != 0))
+        {
+            gerade();
+        }
+
+        if ((Minute >= 3 && Minute <= 7) ||
+            (Minute >= 23 && Minute <= 27) ||
+            (Minute >= 33 && Minute <= 37) ||
+            (Minute >= 53 && Minute <= 57))
+        {
+            m_fuenf();
+        }
+        if ((Minute >= 13 && Minute <= 17) ||
+            (Minute >= 43 && Minute <= 47))
+        {
+            m_viertel();
+        }
+        if ((Minute >= 8 && Minute <= 12) ||
+            (Minute >= 48 && Minute <= 52))
+        {
+            m_zehn();
+        }
+        if ((Minute >= 18 && Minute <= 22) ||
+            (Minute >= 38 && Minute <= 42))
+        {
+            m_zwanzig();
+        }
+        if ((Minute >= 3 && Minute <= 22) ||
+            (Minute >= 33 && Minute <= 37))
+        {
+            m_nach();
+        }
+        if ((Minute >= 23 && Minute <= 27) ||
+            (Minute >= 38 && Minute <= 57))
+        {
+            m_vor();
+        }
+        if (Minute >= 23 && Minute <= 37)
+        {
+            m_halb();
+        }
+        if (((Hour == 1 || Hour == 13) && Minute <= 22) ||
+            ((Hour == 0 || Hour == 12) && Minute >= 23))
+        {
+            eins();
+        }
+        if (((Hour == 2 || Hour == 14) && Minute <= 22) ||
+            ((Hour == 1 || Hour == 13) && Minute >= 23))
+        {
+            zwei();
+        }
+        if (((Hour == 3 || Hour == 15) && Minute <= 22) ||
+            ((Hour == 2 || Hour == 14) && Minute >= 23))
+        {
+            drei();
+        }
+        if (((Hour == 4 || Hour == 16) && Minute <= 22) ||
+            ((Hour == 3 || Hour == 15) && Minute >= 23))
+        {
+            vier();
+        }
+        if (((Hour == 5 || Hour == 17) && Minute <= 22) ||
+            ((Hour == 4 || Hour == 16) && Minute >= 23))
+        {
+            fuenf();
+        }
+        if (((Hour == 6 || Hour == 18) && Minute <= 22) ||
+            ((Hour == 5 || Hour == 17) && Minute >= 23))
+        {
+            sechs();
+        }
+        if (((Hour == 7 || Hour == 19) && Minute <= 22) ||
+            ((Hour == 6 || Hour == 18) && Minute >= 23))
+        {
+            sieben();
+        }
+        if (((Hour == 8 || Hour == 20) && Minute <= 22) ||
+            ((Hour == 7 || Hour == 19) && Minute >= 23))
+        {
+            acht();
+        }
+        if (((Hour == 9 || Hour == 21) && Minute <= 22) ||
+            ((Hour == 8 || Hour == 20) && Minute >= 23))
+        {
+            neun();
+        }
+        if (((Hour == 10 || Hour == 22) && Minute <= 22) ||
+            ((Hour == 9 || Hour == 21) && Minute >= 23))
+        {
+            zehn();
+        }
+        if (((Hour == 11 || Hour == 23) && Minute <= 22) ||
+            ((Hour == 10 || Hour == 22) && Minute >= 23))
+        {
+            elf();
+        }
+        if (((Hour == 12 || Hour == 0) && Minute <= 22) ||
+            ((Hour == 11 || Hour == 23) && Minute >= 23))
+        {
+            zwoelf();
+        }
+        if (Minute >= 58 || Minute <= 2)
+        {
+            uhr();
+        }
+        if ((Hour == 3 && Minute >= 23) ||
+            (Hour >= 4 && Hour <= 8) ||
+            (Hour == 9 && Minute <= 22))
+        {
+            morgens();
+        }
+        if ((Hour == 9 && Minute >= 23) ||
+            (Hour == 10) ||
+            (Hour == 11 && Minute <= 22))
+        {
+            vor();
+            mittags();
+        }
+        if ((Hour == 11 && Minute >= 23) ||
+            (Hour == 12) ||
+            (Hour == 13 && Minute <= 22))
+        {
+            mittags();
+        }
+        if ((Hour == 13 && Minute >= 23) ||
+            (Hour >= 14 && Hour <= 17) ||
+            (Hour == 18 && Minute <= 22))
+        {
+            nach();
+            mittags();
+        }
+        if ((Hour == 18 && Minute >= 23) ||
+            (Hour >= 19 && Hour <= 21) ||
+            (Hour == 22 && Minute <= 22))
+        {
+            abends();
+        }
+        if ((Hour == 22 && Minute >= 23) ||
+            (Hour >= 23 || Hour <= 2) ||
+            (Hour == 3 && Minute <= 22))
+        {
+            nachts();
         }
 
         // test++;
@@ -856,7 +1036,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -870,7 +1050,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -884,7 +1064,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -898,7 +1078,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -912,7 +1092,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -926,7 +1106,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -940,7 +1120,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -954,7 +1134,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -968,7 +1148,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -982,7 +1162,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -996,7 +1176,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -1010,7 +1190,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -1024,7 +1204,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->dayColor;
         }
         else
         {
@@ -1038,7 +1218,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1052,7 +1232,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1066,7 +1246,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1080,7 +1260,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1094,7 +1274,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1108,7 +1288,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1122,7 +1302,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1136,7 +1316,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1150,7 +1330,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1164,7 +1344,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1178,7 +1358,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
@@ -1192,7 +1372,7 @@ public:
         CRGB color;
         if(on)
         {
-            color = this->currentColor;
+            color = this->monthColor;
         }
         else
         {
