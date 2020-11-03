@@ -616,7 +616,7 @@ TimePatternsDEre = {
     }
 
 totalTimes = len(TimePatternsDEre)
-totalVariants = sum(len(v) for v in TimePatternsDEre.itervalues())
+totalVariants = sum(len(v) for v in TimePatternsDEre.values())
 
 Letters = [
     u"a",
@@ -766,14 +766,14 @@ class GeneticClock():
         self.BestPatterns = deque([],10)
 
     def Test(self):
-        print "test"
+        print("test")
 
     def Fitness2(self, Pattern):
         numMatches = 0
         numTimes = 0
         timeMatched = False
         strPattern = "".join(Pattern)
-        for i, r in TimePatternsDEre.iteritems():
+        for i, r in TimePatternsDEre.items():
             timeMatched = False
             for t in r:
                 if t.match(strPattern):
@@ -805,7 +805,7 @@ class GeneticClock():
                 Pat[rndPosition + offset] = l
                 offset += 1
         except IndexError:
-            print rndPosition, offset
+            print(rndPosition, offset)
         return Pat
 
     def CombinePattern(self, PatternA, PatternB):
@@ -818,16 +818,16 @@ class GeneticClock():
 
     def PrintPopulation(self):
         for P in self.Population:
-            print "".join(P[0])
-            print P[1]
+            print("".join(P[0]))
+            print(P[1])
 
     def PrintBestPattern(self):
         for P in self.BestPatterns:
             num, times = self.Fitness2(P[0])
-            print "".join(P[0])
-            print times, float(times)/float(totalTimes)
+            print("".join(P[0]))
+            print(times, float(times)/float(totalTimes))
             # print num, float(num)/float(len(TimePatternsRe))
-            print num, float(num)/float(totalVariants)
+            print(num, float(num)/float(totalVariants))
 
     def run(self):
         # while self.Generation < 10:
@@ -860,13 +860,13 @@ class GeneticClock():
                     self.LastPopulation = copy.deepcopy(self.Population)
                     if self.Generation%100 == 0:
                     # if True:
-                        print "***" + str(self.Generation) + "***"
+                        print("***" + str(self.Generation) + "***")
                         # self.PrintPopulation()
                         self.PrintBestPattern()
-                        print self.BestFitness
+                        print(self.BestFitness)
                 except KeyboardInterrupt:
-                    print "Interrupted"
-                    print "After", self.Generation, "Generations, these are the Best Patterns:"
+                    print("Interrupted")
+                    print("After", self.Generation, "Generations, these are the Best Patterns:")
                     self.PrintBestPattern()
                     # self.PrintPopulation()
                     # print self.BestFitness
@@ -924,8 +924,8 @@ class MyFrame(wx.Frame):
 
 random.seed()
 # GC = GeneticClock(RectClock12x12StartPattern)
-GC = GeneticClock(RectClock16x16StartPattern)
-# GC = GeneticClock(DiamClock12x13StartPattern )
+# GC = GeneticClock(RectClock16x16StartPattern)
+GC = GeneticClock(DiamClock12x13StartPattern )
 # GC = GeneticClock(HourClock12x13StartPattern )
 # GC = GeneticClock(WaveClock12x13StartPattern )
 GenThread = threading.Thread(target=GC.run)
@@ -933,8 +933,8 @@ GenThread.daemon = True
 GenThread.start()
 # GC.run()
 
-print "times: ", totalTimes
-print "variants: ", totalVariants
+print("times: ", totalTimes)
+print("variants: ", totalVariants)
 
 app = wx.App(False)
 frame = MyFrame(None, 'Genetic Clock')
